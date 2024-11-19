@@ -15,12 +15,16 @@
     "@mui/icons-material": "latest",
     "@mui/material": "latest",
     "@mui/material-nextjs": "latest",
-    "@mui/x-data-grid": "^7.22.2",
+    "@mui/x-data-grid": "latest",
+    "asn1": "latest",
+    "mssql": "latest",
     "next": "latest",
     "react": "latest",
     "react-dom": "latest"
   },
   "devDependencies": {
+    "@types/asn1": "latest",
+    "@types/mssql": "latest",
     "@types/node": "latest",
     "@types/react": "latest",
     "@types/react-dom": "latest",
