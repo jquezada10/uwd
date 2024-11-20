@@ -8,7 +8,7 @@ type DbConfig = {
   requestTimeout: number;
 };
 
-const portalDbConfig: DbConfig = {
+const dbConfig: DbConfig = {
   server: process.env.DB_SERVER!,
   user: process.env.DB_PORTAL_USER!,
   password: process.env.DB_PORTAL_PASSWORD!,
@@ -16,4 +16,4 @@ const portalDbConfig: DbConfig = {
   requestTimeout: 300000,
 };
 
-export const database = new sql.ConnectionPool(portalDbConfig);
+export const dbpool = new sql.ConnectionPool(dbConfig);
