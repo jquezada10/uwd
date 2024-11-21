@@ -55,52 +55,11 @@ export default async function getBackOrders(){
   const connectpool = await dbpool.connect();
 
   const sqlSentence = `
-  SELECT TOP 100 [oKey]
-      ,[OrderNumber]
-      ,[CustomerID]
-      ,[SiteID]
-      ,[CustomerRef]
-      ,[PONumber]
-      ,[Date]
-      ,[FollowUpDate]
-      ,[ExpDate]
-      ,[ShipDate]
-      ,[ReqDate]
-      ,[ReqDateOverride]
-      ,[CreateDate]
-      ,[MeasureDate]
-      ,[CompleteDate]
-      ,[AckDate]
-      ,[Comments]
-      ,[EmailStatus]
-      ,[EmailStatusDate]
-      ,[PrintDate]
-      ,[Status]
-      ,[ShipStatus]
-      ,[Cancelled]
-      ,[ClosedDate]
-      ,[Incomplete]
-      ,[ShipVia]
-      ,[PackingType]
-      ,[PackingNoteID]
-      ,[RemoteDropShip]
-      ,[SalesPersonID]
-      ,[SalesCode]
-      ,[ShpAddr_CustomerID]
-      ,[ShpAddr_SiteID]
-      ,[ShpAddr_ContactName]
-      ,[ShpAddr_ContactTitle]
-      ,[ShpAddr_CompanyName]
-      ,[ShpAddr_Address1]
-      ,[ShpAddr_Address2]
-      ,[ShpAddr_City]
-      ,[ShpAddr_State]
-  FROM [FVMaster].[dbo].[Orders]
-  WHERE [Date] BETWEEN '2024-03-01' AND '2024-03-31';`;
+  SELECT TOP 5 * FROM [UWD-SQL2016].UnitedDashboard.dbo.V_BACKORDER
+  ORDER BY OrderNumber , SchedID , UnitID`;
   
   const res = await connectpool.request().query(sqlSentence);
-  
   const raw:BackOrder[] = res.recordset;
-
+  connectpool.close();
   return raw;
 }

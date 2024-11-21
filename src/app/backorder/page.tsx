@@ -10,6 +10,17 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 
+import FormControl from '@mui/material/FormControl';
+
+import TextField from '@mui/material/TextField';
+
+import Chip from '@mui/material/Chip';
+import Checkbox from '@mui/material/Checkbox';
+
+import SelectReason from '@/components/backorder/SelectReason';
+import NoteUser from '@/components/backorder/NoteUser'
+import DateSelect from '@/components/backorder/DateSelect'
+import FilterLocation from '@/components/backorder/FilterLocation'
 
 // export default async function Page() { 
 //   const lastOrders: Order[] = (await fetchLatestOrders()).ordernes;
@@ -47,44 +58,61 @@ import Paper from '@mui/material/Paper';
 // }
 
 import getBackOrders from "@/lib/data"
-import { BackOrder } from '@/lib/definitions';
+import { BackOrder, Reason } from '@/lib/definitions';
 
-export default async function BackOrdersMain(){
+const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
+
+export default async function BackOrdersMain() {
+  let indexrow: number = 1;
   const data: BackOrder[] = await getBackOrders()
-  return(
-    <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-      <TableContainer>
-      <Table stickyHeader size="small" aria-label="simple table">
-        <TableHead>
-          <TableRow>
-            <TableCell>#</TableCell>
-            <TableCell>Order Info</TableCell>
-            <TableCell>Dates Order</TableCell>
-            <TableCell>Location / Target Shipp</TableCell>
-            <TableCell>SiteID</TableCell>
-            <TableCell>CustomerRef</TableCell>
-            <TableCell>PONumber</TableCell>
-            <TableCell>Date</TableCell>
-            <TableCell>ReqDate</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {data.map((row, index) => (
-            <TableRow key={index}>
-              <TableCell>{index}</TableCell>
-              <TableCell>Order: {row.oKey} <br /> Customer: {row.CustomerID}</TableCell>
-              <TableCell>Ack Date: {row.AckDate.toLocaleDateString()} <br /> Req Date: {row.ReqDate.toLocaleDateString()}</TableCell>
-              <TableCell>SPRINGFIELD <br /> 00/00/0000</TableCell>
-              <TableCell>{row.SiteID}</TableCell>
-              <TableCell>{row.CustomerID}</TableCell>
-              <TableCell>{row.PONumber}</TableCell>
-              <TableCell>{row.Date.toLocaleDateString()}</TableCell>
-              <TableCell>{row.ReqDate.toLocaleDateString()}</TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-      </TableContainer>
-  </Paper>
+  return (
+    <div>
+      <Paper elevation={3} />
+        <FilterLocation />
+      <Paper />
+      <br />
+      <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+        <TableContainer>
+          <Table stickyHeader size="small" aria-label="simple table">
+            <TableHead>
+              <TableRow>
+                <TableCell></TableCell>
+                <TableCell>#</TableCell>
+                <TableCell>Order</TableCell>
+                <TableCell>Line</TableCell>
+                <TableCell>Unit</TableCell>
+                <TableCell>Customer</TableCell>
+                <TableCell></TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {data.map((row, index) => (
+                <TableRow key={index}>
+                  <TableCell>
+                    <Checkbox {...label} />
+                  </TableCell>
+                  <TableCell>{indexrow + index}</TableCell>
+                  <TableCell>{row.OrderNumber}</TableCell>
+                  <TableCell>{row.LineItem}</TableCell>
+                  <TableCell>{row.UnitID}</TableCell>
+                  <TableCell>{row.CUSTOMER}</TableCell>
+                  <TableCell>
+                    <div>
+                      <SelectReason />
+                      <NoteUser />
+                      <DateSelect />
+                      <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
+                        <TextField id="expectdate" label="" size="small" type="Date" slotProps={{ input: { readOnly: true, }, }} />
+                      </FormControl>
+                    </div>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </Paper>
+
+    </div>
   );
 }

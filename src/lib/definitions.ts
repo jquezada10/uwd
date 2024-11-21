@@ -21,61 +21,36 @@ import { ReactNode } from "react";
 //   DeliveryDate: string;
 // }
 
-export interface Order {
-  OrderNumber: string,
-  IsHold: number,
-  PONumber: string,
-  QuoteNumber: string | 'N/A',
-  OrderedDate: string,
-  AcknowledgedDate: string,
-  RequiredDate: string,
-  ParentDealerNumber: string,
-  ParentDealerName: string,
-  DealerNumber:  string,
-  DealerName: string,
-  SalespersonUserId: number,
-  Cost: number
-}
+// export interface Order {
+//   OrderNumber: string,
+//   IsHold: number,
+//   PONumber: string,
+//   QuoteNumber: string | 'N/A',
+//   OrderedDate: string,
+//   AcknowledgedDate: string,
+//   RequiredDate: string,
+//   ParentDealerNumber: string,
+//   ParentDealerName: string,
+//   DealerNumber:  string,
+//   DealerName: string,
+//   SalespersonUserId: number,
+//   Cost: number
+// }
 
 export type BackOrder = {
-  oKey: string,
+  SchedID: number,
+  UnitID: number,
   OrderNumber: string,
-  CustomerID: string,
-  SiteID: string,
-  CustomerRef: string,
-  PONumber: string,
-  Date: string,
-  FollowUpDate?: null,
-  ExpDate: string,
-  ShipDate: string,
-  ReqDate: string,
-  ReqDateOverride: boolean,
-  CreateDate: string,
-  MeasureDate: string,
-  CompleteDate: string,
-  AckDate: string,
-  Comments: string,
-  EmailStatus: string,
-  EmailStatusDate: string,
-  PrintDate: string,
-  Status: number,
-  ShipStatus: number,
-  Cancelled: boolean,
-  ClosedDate: string,
-  Incomplete: false,
-  ShipVia: string,
-  PackingType?: null,
-  PackingNoteID?: null,
-  RemoteDropShip: boolean,
-  SalesPersonID: number,
-  SalesCode: string,
-  ShpAddr_CustomerID: string,
-  ShpAddr_SiteID: string,
-  ShpAddr_ContactName: string,
-  ShpAddr_ContactTitle: string,
-  ShpAddr_CompanyName: string,
-  ShpAddr_Address1: string,
-  ShpAddr_Address2: string,
-  ShpAddr_City: string,
-  ShpAddr_State: string,
+  LineItem: number,
+  PartNo: string,
+  TargetShipDate: Date,
+  CUSTOMER: string,
+  LocationID: string,
+  Category: string
+}
+
+
+export type Reason = {
+  id : number,
+  title : string 
 }

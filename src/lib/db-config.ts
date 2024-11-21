@@ -10,8 +10,8 @@ type DbConfig = {
 
 const dbConfig: DbConfig = {
   server: process.env.DB_SERVER!,
-  user: process.env.DB_PORTAL_USER!,
-  password: process.env.DB_PORTAL_PASSWORD!,
+  user: process.env.DB_USER!,
+  password: process.env.DB_PASSWORD!,
   trustServerCertificate: true,
   requestTimeout: 300000,
 };

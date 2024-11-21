@@ -16,9 +16,12 @@
     "@mui/material": "latest",
     "@mui/material-nextjs": "latest",
     "@mui/x-data-grid": "latest",
+    "@mui/x-date-pickers": "^7.22.2",
     "asn1": "latest",
+    "dayjs": "^1.11.13",
     "mssql": "latest",
     "next": "latest",
+    "pnpm": "^9.14.2",
     "react": "latest",
     "react-dom": "latest"
   },
