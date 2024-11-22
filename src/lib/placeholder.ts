@@ -1,4 +1,5 @@
 import { Reason } from "./definitions";
+import { GridColDef } from '@mui/x-data-grid';
 
 export const reasonsBackOrder: Reason[] = [
   { id: 1, title: 'SERIE / OVERSCHEDULED',},
@@ -24,4 +25,14 @@ export const reasonsBackOrder: Reason[] = [
   { id: 21, title: 'ORDER / INVALID MODEL',},
   { id: 22, title: 'OTHER / X ',},
 
+];
+
+export const columnsBackorder: Array<Object> = [
+  { field: 'SelectCheckbox', headerName: '', width: 10 },
+  { field: 'Index', headerName: '#', width: 60 },
+  { field: 'OrderNumber', headerName: 'Order', width: 120 },
+  { field: 'LineItem', headerName: 'Line', width: 120 },
+  { field: 'UnitID', headerName: 'Unit', width: 120 },
+  { field: 'CUSTOMER', headerName: 'Customer', width: 360 },
+  { field: 'Actions', headerName: '' },
 ];
