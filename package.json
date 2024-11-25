@@ -16,6 +16,7 @@
     "@mui/material": "latest",
     "@mui/material-nextjs": "latest",
     "@mui/x-data-grid": "latest",
+    "@mui/x-data-grid-generator": "^7.22.3",
     "@mui/x-date-pickers": "^7.22.2",
     "asn1": "latest",
     "dayjs": "^1.11.13",
@@ -23,6 +24,7 @@
     "next": "latest",
     "pnpm": "^9.14.2",
     "react": "latest",
+    "react-data-table-component": "^7.6.2",
     "react-dom": "latest"
   },
   "devDependencies": {

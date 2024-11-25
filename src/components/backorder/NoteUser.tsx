@@ -6,6 +6,7 @@ import React, { useState } from 'react';
 export default function NoteUser() {
   function handlerFocus(e: any){
     setMaxRows(maxRows + 10);
+    console.log(maxRows)
   } 
   
   function handlerBlur(e: any){

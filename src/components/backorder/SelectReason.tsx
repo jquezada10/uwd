@@ -15,14 +15,16 @@ export default function SelectOptions() {
   };
 
   return (
-    <FormControl sx={{ mx:1, minWidth: 120 }} size="small">
+    <FormControl sx={{ mx: 1, minWidth: 240 }} size="small">
       <InputLabel id="lblreason">Reasons</InputLabel>
-      <Select labelId="lblreason" id="reason" 
-       label="Reasons" value={reason}
-       onChange={handleChange}>
-        {reasonsBackOrder.map((item, index) => (
+      <Select labelId="lblreason" id="reason"
+        label="Reasons" value={reason}
+        onChange={handleChange}>
+        {
+        reasonsBackOrder.map((item, index) => (
           <MenuItem key={index} value={item.id}>{item.title}</MenuItem>
-        ))}
+        ))
+        }
       </Select>
     </FormControl>
   );
