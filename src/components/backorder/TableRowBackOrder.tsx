@@ -1,24 +1,40 @@
-'use client'
-import TableCell from '@mui/material/TableCell'
 import TableRow from '@mui/material/TableRow'
+import TableCell from '@mui/material/TableCell'
 import Checkbox from '@mui/material/Checkbox'
-import FormBackOrder from './FormBackOrder'
 import Chip from '@mui/material/Chip'
+
+import FormBackOrder from './FormBackOrder'
+import getBackOrders from "@/lib/data"
+import { BackOrder } from '@/lib/definitions';
+import CheckBackorder from '@/components/backorder/CheckBackOrder';
 
 const label = { inputProps: { 'aria-label': 'Select record' } };
 
-export default function TableRowBackOrder({ item, index}: { item: any, index: number}) {
-  const i: number = index + 1;
+export let countBackOrder: number = 0
 
-  return(
-    <TableRow key={i} style={{backgroundColor: !item.UnitID ? '#ffcdd2' : '',}}>
-      <TableCell sx={{p:0, m:0}}><Checkbox {...label} sx={{p:0, m:0}} /></TableCell>
-      <TableCell>{i}</TableCell>
-      <TableCell>{item.OrderNumber}</TableCell>
-      <TableCell align='center'>{item.LineItem}</TableCell>
-      <TableCell align='center'>{ !item.UnitID ? <Chip label="Unscheduled" />: item.UnitID}</TableCell>
-      <TableCell>{item.CUSTOMER}</TableCell>
-      <TableCell>{ !item.UnitID ? '' : <FormBackOrder />}</TableCell>
-    </TableRow>
+
+export default async function TableRowBackOrder() {
+  const data: BackOrder[] = await getBackOrders();
+  const c: number = 1;
+  countBackOrder = data.length
+  return (
+    <>
+      {data.map((item, i) => {
+        return (
+          <TableRow hover key={i + c} style={{ backgroundColor: !item.UnitID ? '#ffcdd2' : '', }}>
+            <TableCell sx={{ p: 0, m: 0 }}>
+            <CheckBackorder />
+            </TableCell>
+            <TableCell>{i + c}</TableCell>
+            <TableCell>{item.OrderNumber}</TableCell>
+            <TableCell align='center'>{item.LineItem}</TableCell>
+            <TableCell align='center'>{!item.UnitID ? <Chip label="Unscheduled" /> : item.UnitID}</TableCell>
+            <TableCell>{item.CUSTOMER}</TableCell>
+            <TableCell>{!item.UnitID ? '' : <FormBackOrder />}</TableCell>
+            {/* <TableCell></TableCell> */}
+          </TableRow>
+        )
+      })}
+    </>
   );
 }

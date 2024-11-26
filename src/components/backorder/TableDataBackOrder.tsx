@@ -1,26 +1,28 @@
-// 'use client'
 import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import Checkbox from '@mui/material/Checkbox';
 
-import getBackOrders from "@/lib/data"
-import { BackOrder } from '@/lib/definitions';
+import { Suspense } from 'react';
+import { TableRowSkeleton } from '@/components/skeletons'
 import TableRowBackOrder from '@/components/backorder/TableRowBackOrder';
+import TableBody from '@mui/material/TableBody';
+import { countBackOrder } from '@/components/backorder/TableRowBackOrder';
 
-const label = { inputProps: { 'aria-label': 'Select All' } };
+import { selectedArray } from '@/components/backorder/CheckBackOrder'
 
 export default async function TableDataBackOrder() {
-  const data: BackOrder[] = await getBackOrders();
   return (
-    <TableContainer sx={{ maxHeight: 440, }}>
+    <TableContainer sx={{ maxHeight: 720, }}>
+      <pre style={{ fontSize: 10 }}>
+        {JSON.stringify(selectedArray, null, 4)}
+      </pre>
+
       <Table stickyHeader size="small" aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell width={'xs'} sx={{ py: 0}}></TableCell>
+            <TableCell width={'1'} sx={{ p: 0 }}>{countBackOrder}</TableCell>
             <TableCell width={'1'}>#</TableCell>
             <TableCell width={'1'}>Order</TableCell>
             <TableCell width={'1'} align='center'>Line</TableCell>
@@ -30,7 +32,19 @@ export default async function TableDataBackOrder() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {data.map((item, i) => <TableRowBackOrder item={item} index={i} key={i} />)}
+          <Suspense fallback={
+            <TableRow>
+              <TableCell>Loading...</TableCell>
+              <TableCell>Loading...</TableCell>
+              <TableCell>Loading...</TableCell>
+              <TableCell>Loading...</TableCell>
+              <TableCell>Loading...</TableCell>
+              <TableCell>Loading...</TableCell>
+              <TableCell>Loading...</TableCell>
+            </TableRow>
+          }>
+            <TableRowBackOrder />
+          </Suspense>
         </TableBody>
       </Table>
     </TableContainer>

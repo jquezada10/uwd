@@ -4,10 +4,7 @@ import Container from '@mui/material/Container';
 
 import FormFilterBackOrder from '@/components/backorder/FormFilterBackOrder';
 import TableDataBackOrder from '@/components/backorder/TableDataBackOrder';
-import TableDataOnClient from '@/components/backorder/TableDataOnClient';
-// import DateTableBackOrder from '@/components/backorder/DataTableBackOrder';
-// import DataGridBackOrder from '@/components/backorder/DataGridBackOrder';
-// import DataGridServerSide from '@/components/backorder/DataGridServerSide';
+
 
 export default function Home() {
   return (
@@ -25,9 +22,9 @@ export default function Home() {
         <br />
         <br />
         <TableDataBackOrder />
-        <br />
-        <br />
-        <TableDataOnClient />
+        {/* <br /> */}
+        {/* <br /> */}
+        {/* <TableDataOnClient /> */}
       </Box>
     </Container>
   );
