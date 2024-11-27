@@ -1,31 +1,24 @@
 import * as React from 'react';
-import Box from '@mui/material/Box';
-import Container from '@mui/material/Container';
-
+import Stack from '@mui/material/Stack';
 import FormFilterBackOrder from '@/components/backorder/FormFilterBackOrder';
 import TableDataBackOrder from '@/components/backorder/TableDataBackOrder';
 
+export default async function Home(props: {
+  searchParams?: Promise<{
+    query?: string;
+    page?: string;
+  }>;
+}) {
 
-export default function Home() {
+  const searchParams = await props.searchParams;
+  const query = searchParams?.query || '';
+  const currentPage = Number(searchParams?.page) || 1;
+
+  console.log(query, currentPage);
   return (
-    <Container maxWidth="xl">
-      <Box
-        sx={{
-          my: 4,
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-      >
-        <FormFilterBackOrder />
-        <br />
-        <br />
-        <TableDataBackOrder />
-        {/* <br /> */}
-        {/* <br /> */}
-        {/* <TableDataOnClient /> */}
-      </Box>
-    </Container>
+    <Stack spacing={2} sx={{ alignItems: 'center', mx: 3, pb: 5, mt: { xs: 8, md: 0 }, }}>
+      <FormFilterBackOrder />
+      <TableDataBackOrder query={query} currentPage={currentPage}/>
+    </Stack>
   );
 }

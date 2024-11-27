@@ -8,7 +8,7 @@ export default function ReasonComplete() {
     <Autocomplete
       id="reason"
       size="small"
-      sx={{ width: 300 }}
+      sx={{ width: 240 }}
       options={reasonsBackOrder}
       getOptionLabel={(option) => option.title}
       renderInput={(params) => (<TextField {...params} label="Reason" />)}

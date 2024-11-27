@@ -13,8 +13,20 @@ const label = { inputProps: { 'aria-label': 'Select record' } };
 export let countBackOrder: number = 0
 
 
-export default async function TableRowBackOrder() {
-  const data: BackOrder[] = await getBackOrders();
+export default async function TableRowBackOrder({
+  query,
+  currentPage,
+}: {
+  query: string;
+  currentPage: number;
+}) {
+  // const searchParams = await props.searchParams;
+  // const query = searchParams?.query || '';
+  // const currentPage = Number(searchParams?.page) || 1;
+
+  console.log('props-tablerow', query, currentPage);
+
+  const data: BackOrder[] = await getBackOrders(query, currentPage);
   const c: number = 1;
   countBackOrder = data.length
   return (
@@ -23,7 +35,7 @@ export default async function TableRowBackOrder() {
         return (
           <TableRow hover key={i + c} style={{ backgroundColor: !item.UnitID ? '#ffcdd2' : '', }}>
             <TableCell sx={{ p: 0, m: 0 }}>
-            <CheckBackorder />
+              {/* <CheckBackorder /> */}
             </TableCell>
             <TableCell>{i + c}</TableCell>
             <TableCell>{item.OrderNumber}</TableCell>

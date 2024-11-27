@@ -8,21 +8,25 @@ import { Suspense } from 'react';
 import { TableRowSkeleton } from '@/components/skeletons'
 import TableRowBackOrder from '@/components/backorder/TableRowBackOrder';
 import TableBody from '@mui/material/TableBody';
-import { countBackOrder } from '@/components/backorder/TableRowBackOrder';
+import Skeleton from '@mui/material/Skeleton';
 
-import { selectedArray } from '@/components/backorder/CheckBackOrder'
-
-export default async function TableDataBackOrder() {
+export default async function TableDataBackOrder({
+  query,
+  currentPage,
+}: {
+  query: string;
+  currentPage: number;
+}) {
   return (
     <TableContainer sx={{ maxHeight: 720, }}>
-      <pre style={{ fontSize: 10 }}>
-        {JSON.stringify(selectedArray, null, 4)}
-      </pre>
+      {/* <pre style={{ fontSize: 10 }}>
+          {JSON.stringify(selectedArray, null, 4)}
+      </pre> */}
 
       <Table stickyHeader size="small" aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell width={'1'} sx={{ p: 0 }}>{countBackOrder}</TableCell>
+            <TableCell width={'1'} sx={{ p: 0 }}></TableCell>
             <TableCell width={'1'}>#</TableCell>
             <TableCell width={'1'}>Order</TableCell>
             <TableCell width={'1'} align='center'>Line</TableCell>
@@ -34,16 +38,16 @@ export default async function TableDataBackOrder() {
         <TableBody>
           <Suspense fallback={
             <TableRow>
-              <TableCell>Loading...</TableCell>
-              <TableCell>Loading...</TableCell>
-              <TableCell>Loading...</TableCell>
-              <TableCell>Loading...</TableCell>
-              <TableCell>Loading...</TableCell>
-              <TableCell>Loading...</TableCell>
-              <TableCell>Loading...</TableCell>
+              <TableCell><Skeleton animation="wave" variant="rectangular" height={15}/></TableCell>
+              <TableCell><Skeleton animation="wave" variant="rectangular" height={15}/></TableCell>
+              <TableCell><Skeleton animation="wave" variant="rectangular" height={15}/></TableCell>
+              <TableCell><Skeleton animation="wave" variant="rectangular" height={15}/></TableCell>
+              <TableCell><Skeleton animation="wave" variant="rectangular" height={15}/></TableCell>
+              <TableCell><Skeleton animation="wave" variant="rectangular" height={15}/></TableCell>
+              <TableCell><Skeleton animation="wave" variant="rectangular" height={15}/></TableCell>
             </TableRow>
-          }>
-            <TableRowBackOrder />
+            }>
+            <TableRowBackOrder query={query} currentPage={currentPage}/>
           </Suspense>
         </TableBody>
       </Table>
