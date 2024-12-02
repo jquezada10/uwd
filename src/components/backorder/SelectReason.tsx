@@ -13,7 +13,7 @@ export default function SelectOptions() {
     setReason(event.target.value as string);
   };
   return (
-    <FormControl sx={{ m: 1, minWidth: 240 }} size="small">
+    <FormControl sx={{ mr: 1, my:1, minWidth: 240 }} size="small">
       <InputLabel id="lblreason">Reasons</InputLabel>
       <Select labelId="lblreason" id="reason"
         label="Reasons" value={reason}

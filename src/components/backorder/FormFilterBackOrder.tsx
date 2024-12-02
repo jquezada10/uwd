@@ -14,11 +14,11 @@ import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
 
 import { useSearchParams, usePathname, useRouter } from 'next/navigation';
+import { useDebouncedCallback } from 'use-debounce';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: '#fff',
   ...theme.typography.body2,
-  padding: theme.spacing(1),
   textAlign: 'justify',
   color: theme.palette.text.secondary,
   ...theme.applyStyles('dark', {
@@ -27,54 +27,75 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 export default function FormFilterBackOrder() {
-
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const { replace } = useRouter();
 
-  function handleSearch(term: string) {
-    console.log(`Searching... ${term}`);
+  const [valueLocation] = React.useState('ALL');
+  const [onlyUnscheduled, setOnlyUnscheduled] = React.useState(false);
+
+  const handleFilterFields = useDebouncedCallback(
+    (fieldName: string, fieldValue: string) => {
     const params = new URLSearchParams(searchParams);
-    if (term) {
-      params.set('query', term);
+    params.set('page', '1');
+    if (fieldValue) {
+      params.set(fieldName, fieldValue);
     } else {
-      params.delete('query');
+      params.delete(fieldName);
     }
     replace(`${pathname}?${params.toString()}`);
-  }
+  }, 300);
+
+  const handleUnscheduled = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setOnlyUnscheduled(event.target.checked);
+  };
 
   return (
     <Box sx={{ width: '100%' }}>
       <Stack spacing={2}>
         <Item>
-          <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
+          <FormControl sx={{ mr: 1, my: 1, minWidth: 120 }}>
             <TextField
               label="Order Number"
               id="outlined-size-small"
-              defaultValue=""
               size="small"
+              onChange={(e) => { handleFilterFields('orderNumber', e.target.value); }}
+              defaultValue={searchParams.get('orderNumber')?.toString()}
             />
           </FormControl>
-          <FormControl sx={{ m: 1, minWidth: 320 }} size="small">
+
+          <FormControl sx={{ mr: 1, my: 1, minWidth: 320 }} size="small">
             <TextField
               label="Customer"
               id="outlined-size-small"
               size="small"
-              onChange={(e) => {handleSearch(e.target.value);}}
-              defaultValue={searchParams.get('query')?.toString()}
+              onChange={(e) => { handleFilterFields('customerTitle', e.target.value); }}
+              defaultValue={searchParams.get('customerTitle')?.toString()}
             />
           </FormControl>
+
           <SelectReason />
-          <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
-            <RadioGroup row aria-labelledby="rgLocation" name="rgLocation" defaultValue="ALL">
+
+          <FormControl sx={{ mr: 1, my: 1, minWidth: 120 }} size="small">
+            <RadioGroup row
+              aria-labelledby="rgLocation"
+              name="rgLocation"
+              onChange={(e) => { handleFilterFields('locationOrd', e.target.value); }}
+              defaultValue={valueLocation}
+            >
               <FormControlLabel value="ALL" control={<Radio />} label="All" />
               <FormControlLabel value="MAIN" control={<Radio />} label="Main" />
               <FormControlLabel value="WAYNE" control={<Radio />} label="Wayne" />
             </RadioGroup>
           </FormControl>
-          <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
+
+          <FormControl sx={{ mr: 1, my: 1, minWidth: 120 }} size="small">
             <FormGroup>
-              <FormControlLabel control={<Checkbox />} label="Unscheduled" />
+              <FormControlLabel
+                control={<Checkbox 
+                  checked={onlyUnscheduled}
+                  onChange={handleUnscheduled}
+                />} label="Only Unscheduled" />
             </FormGroup>
           </FormControl>
         </Item>

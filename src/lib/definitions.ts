@@ -1,5 +1,3 @@
-import { ReactNode } from "react";
-
 export type BackOrder = {
   SchedID: number,
   UnitID: number,
@@ -17,22 +15,3 @@ export type Reason = {
   id : number,
   title : string 
 }
-
-
-// function createData(
-//   id: number,
-//   name: string,
-//   calories: number,
-//   fat: number,
-//   carbs: number,
-//   protein: number,
-// ): Data {
-//   return {
-//     id,
-//     name,
-//     calories,
-//     fat,
-//     carbs,
-//     protein,
-//   };
-// }

@@ -5,50 +5,40 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 
 import { Suspense } from 'react';
-import { TableRowSkeleton } from '@/components/skeletons'
 import TableRowBackOrder from '@/components/backorder/TableRowBackOrder';
 import TableBody from '@mui/material/TableBody';
 import Skeleton from '@mui/material/Skeleton';
+import { BackOrderTableSkeleton } from './ui/skeletons';
 
 export default async function TableDataBackOrder({
-  query,
+  order,
+  customer,
+  location,
   currentPage,
 }: {
-  query: string;
+  order: string;
+  customer: string;
+  location: string;
   currentPage: number;
 }) {
   return (
-    <TableContainer sx={{ maxHeight: 720, }}>
-      {/* <pre style={{ fontSize: 10 }}>
-          {JSON.stringify(selectedArray, null, 4)}
-      </pre> */}
-
+    <TableContainer sx={{}}>
       <Table stickyHeader size="small" aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell width={'1'} sx={{ p: 0 }}></TableCell>
-            <TableCell width={'1'}>#</TableCell>
-            <TableCell width={'1'}>Order</TableCell>
-            <TableCell width={'1'} align='center'>Line</TableCell>
-            <TableCell width={'1'} align='center'>Unit</TableCell>
-            <TableCell width={''}>Customer</TableCell>
-            <TableCell width={''}>Actions</TableCell>
+            <TableCell width={'1'} sx={{ p: 0 }} style={{ backgroundColor: '#f5f6fa' }}></TableCell>
+            <TableCell width={'1'} style={{ backgroundColor: '#f5f6fa' }}>#</TableCell>
+            <TableCell width={'1'} style={{ backgroundColor: '#f5f6fa' }}>Order</TableCell>
+            <TableCell width={'1'} align='center' style={{ backgroundColor: '#f5f6fa' }}>Line</TableCell>
+            <TableCell width={'1'} align='center' style={{ backgroundColor: '#f5f6fa' }}>Unit</TableCell>
+            <TableCell width={''} style={{ backgroundColor: '#f5f6fa' }}>Customer</TableCell>
+            <TableCell width={''} style={{ backgroundColor: '#f5f6fa' }}>Actions</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          <Suspense fallback={
-            <TableRow>
-              <TableCell><Skeleton animation="wave" variant="rectangular" height={15}/></TableCell>
-              <TableCell><Skeleton animation="wave" variant="rectangular" height={15}/></TableCell>
-              <TableCell><Skeleton animation="wave" variant="rectangular" height={15}/></TableCell>
-              <TableCell><Skeleton animation="wave" variant="rectangular" height={15}/></TableCell>
-              <TableCell><Skeleton animation="wave" variant="rectangular" height={15}/></TableCell>
-              <TableCell><Skeleton animation="wave" variant="rectangular" height={15}/></TableCell>
-              <TableCell><Skeleton animation="wave" variant="rectangular" height={15}/></TableCell>
-            </TableRow>
-            }>
-            <TableRowBackOrder query={query} currentPage={currentPage}/>
-          </Suspense>
+          {/* <Suspense fallback={<p>Load</p>}> */}
+            <TableRowBackOrder order={order} customer={customer} location={location} currentPage={currentPage} />
+          {/* </Suspense> */}
         </TableBody>
       </Table>
     </TableContainer>
