@@ -24,15 +24,17 @@ export default async function TableRowBackOrder({
   order,
   customer,
   location,
+  schdle,
   currentPage,
 }: {
   order: string;
   customer: string;
   location: string;
+  schdle: string;
   currentPage: number;
 }) {
 
-  const data: BackOrder[] = await getBackOrders(order, customer, location, currentPage);
+  const data: BackOrder[] = await getBackOrders(order, customer, location, currentPage, schdle);
   const c: number = 1;
 
   return (
@@ -41,7 +43,7 @@ export default async function TableRowBackOrder({
         return (
           <TableRow hover key={i + c} style={{ backgroundColor: !item.UnitID ? '#ffcdd2' : '', }}>
             <TableCell sx={{ p: 0, m: 0 }}>
-              {/* <CheckBackorder /> */}
+              <CheckBackorder />
             </TableCell>
 
             <TableCell>
@@ -49,7 +51,7 @@ export default async function TableRowBackOrder({
             </TableCell>
 
             <TableCell>
-              {item.OrderNumber}
+              <a href={`http://uwd-fvsql/BI/reportviewer.aspx?report=331&order=${item.OrderNumber}`} target='_blank'>{item.OrderNumber}</a>
             </TableCell>
 
             <TableCell align='center'>

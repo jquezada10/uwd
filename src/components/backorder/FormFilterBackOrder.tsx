@@ -48,6 +48,12 @@ export default function FormFilterBackOrder() {
 
   const handleUnscheduled = (event: React.ChangeEvent<HTMLInputElement>) => {
     setOnlyUnscheduled(event.target.checked);
+    // console.log(event.target.checked);
+    if(event.target.checked){
+      handleFilterFields('schdle', 'true');
+    }else{
+      handleFilterFields('schdle', 'false');
+    }
   };
 
   return (

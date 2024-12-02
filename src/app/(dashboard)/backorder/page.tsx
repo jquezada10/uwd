@@ -10,12 +10,13 @@ import TableDataBackOrder from '@/components/backorder/TableDataBackOrder';
 import Pagination from '@/components/backorder/ui/pagination';
 import Chip from '@mui/material/Chip';
 
-export default async function BackOrderPage(props: { searchParams?: Promise<{ orderNumber?: string; customerTitle?: string; locationOrd?: string, page?: string; }>; }) {
+export default async function BackOrderPage(props: { searchParams?: Promise<{ orderNumber?: string; customerTitle?: string; locationOrd?: string, page?: string; schdle?: string }>; }) {
 
   const searchParams = await props.searchParams;
   const order = searchParams?.orderNumber || '';
   const customer = searchParams?.customerTitle || '';
   const location = searchParams?.locationOrd || 'ALL';
+  const schdle = searchParams?.schdle || '';
   const currentPage = Number(searchParams?.page) || 1;
   const totalPages = await fetchBackOrdersPages(order, customer, location, currentPage);
 
@@ -36,7 +37,7 @@ export default async function BackOrderPage(props: { searchParams?: Promise<{ or
 
       <Card variant="outlined" sx={{ width: '100%', p: 0 }}>
         <CardContent>
-          <TableDataBackOrder order={order} customer={customer} location={location} currentPage={currentPage} />
+          <TableDataBackOrder order={order} customer={customer} location={location} schdle={schdle} currentPage={currentPage} />
           <div className="">
 
           </div>

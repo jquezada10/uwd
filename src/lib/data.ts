@@ -3,17 +3,23 @@ import { dbpool } from '@/lib/db-config'
 import { BackOrder } from './definitions';
 
 const ITEMS_PER_PAGE = 15;
-export default async function getBackOrders(order: string, customer: string, location: string, currentPage: number) {
+export default async function getBackOrders(order: string, customer: string, location: string, currentPage: number, schdle:string) {
   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
-  console.log('HEEEELLLOO')
+
   try {
     const pool = await dbpool.connect();
 
     let sqlSentence = `
       SELECT [SchedID], [UnitID], [OrderNumber], [LineItem], [PartNo], [TargetShipDate], [CUSTOMER], [LocationID]
-      FROM [uwd-test].[dbo].[backorders]
+      FROM [UWD-SQL2016].UnitedDashboard.dbo.V_BACKORDER
       WHERE 1=1
     `;
+    
+    // let sqlSentence = `
+    //   SELECT [SchedID], [UnitID], [OrderNumber], [LineItem], [PartNo], [TargetShipDate], [CUSTOMER], [LocationID]
+    //   FROM [uwd-test].[dbo].[backorders]
+    //   WHERE 1=1
+    // `;
 
     const request = pool.request();
 
@@ -30,6 +36,10 @@ export default async function getBackOrders(order: string, customer: string, loc
     if (location != 'ALL') {
       sqlSentence += ` AND [LocationID] = @location`;
       request.input("location", sql.VarChar, `${location}`);
+    }
+
+    if (schdle == 'true') {
+      sqlSentence += ` AND [SchedID] is NULL`;
     }
 
     sqlSentence += `
@@ -64,9 +74,15 @@ export async function fetchBackOrdersPages(order: string, customer: string, loca
   try {
     const pool = await dbpool.connect();
 
+    // let sqlSentence = `
+    //   SELECT COUNT(*) AS totalBackOrders
+    //   FROM [uwd-test].[dbo].[backorders]
+    //   WHERE 1=1
+    // `;    
+    
     let sqlSentence = `
       SELECT COUNT(*) AS totalBackOrders
-      FROM [uwd-test].[dbo].[backorders]
+      FROM [UWD-SQL2016].UnitedDashboard.dbo.V_BACKORDER
       WHERE 1=1
     `;
 

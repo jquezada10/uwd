@@ -8,17 +8,19 @@ import { Suspense } from 'react';
 import TableRowBackOrder from '@/components/backorder/TableRowBackOrder';
 import TableBody from '@mui/material/TableBody';
 import Skeleton from '@mui/material/Skeleton';
-import { BackOrderTableSkeleton } from './ui/skeletons';
+// import { BackOrderTableSkeleton } from './ui/skeletons';
 
 export default async function TableDataBackOrder({
   order,
   customer,
   location,
   currentPage,
+  schdle
 }: {
   order: string;
   customer: string;
   location: string;
+  schdle: string;
   currentPage: number;
 }) {
   return (
@@ -36,9 +38,19 @@ export default async function TableDataBackOrder({
           </TableRow>
         </TableHead>
         <TableBody>
-          {/* <Suspense fallback={<p>Load</p>}> */}
-            <TableRowBackOrder order={order} customer={customer} location={location} currentPage={currentPage} />
-          {/* </Suspense> */}
+          <Suspense key={order + customer + location + currentPage} fallback={
+            <TableRow>
+              <TableCell><Skeleton animation="wave" variant="rounded" height={20}  /></TableCell>
+              <TableCell><Skeleton animation="wave" variant="rectangular" height={20}  /></TableCell>
+              <TableCell><Skeleton animation="wave" variant="rectangular" height={20}  /></TableCell>
+              <TableCell><Skeleton animation="wave" variant="rectangular" height={20}  /></TableCell>
+              <TableCell><Skeleton animation="wave" variant="rectangular" height={20}  /></TableCell>
+              <TableCell><Skeleton animation="wave" variant="rectangular" height={20}  /></TableCell>
+              <TableCell><Skeleton animation="wave" variant="rectangular" height={20}  /></TableCell>
+            </TableRow>
+          }>
+            <TableRowBackOrder order={order} customer={customer} location={location} schdle={schdle} currentPage={currentPage} />
+          </Suspense>
         </TableBody>
       </Table>
     </TableContainer>
