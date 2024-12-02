@@ -89,6 +89,7 @@ export default function FormFilterBackOrder() {
               onChange={(e) => { handleFilterFields('locationOrd', e.target.value); }}
               defaultValue={valueLocation}
             >
+              <FormControlLabel value="ALL" control={<Radio />} label="All" />
               <FormControlLabel value="MAIN" control={<Radio />} label="Main" />
               <FormControlLabel value="WAYNE" control={<Radio />} label="Wayne" />
             </RadioGroup>
