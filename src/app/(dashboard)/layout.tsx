@@ -12,7 +12,7 @@ import Copyright from '@/components/dashboard/Copyright';
 
 export default function RootLayout(props: { children: React.ReactNode }) {
     return (
-        <AppTheme disableCustomTheme={false} {...props}>
+        <AppTheme disableCustomTheme={true} {...props}>
             <CssBaseline enableColorScheme />
             <Box sx={{ display: 'flex' }}>
                 <SideMenu />

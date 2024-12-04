@@ -15,16 +15,7 @@ import Box from '@mui/material/Box';
 
 import { useSearchParams, usePathname, useRouter } from 'next/navigation';
 import { useDebouncedCallback } from 'use-debounce';
-
-const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: '#fff',
-  ...theme.typography.body2,
-  textAlign: 'justify',
-  color: theme.palette.text.secondary,
-  ...theme.applyStyles('dark', {
-    backgroundColor: '#1A2027',
-  }),
-}));
+import FilterReasonSelect from './FilterReasonSelect';
 
 export default function FormFilterBackOrder() {
   const searchParams = useSearchParams();
@@ -36,76 +27,71 @@ export default function FormFilterBackOrder() {
 
   const handleFilterFields = useDebouncedCallback(
     (fieldName: string, fieldValue: string) => {
-    const params = new URLSearchParams(searchParams);
-    params.set('page', '1');
-    if (fieldValue) {
-      params.set(fieldName, fieldValue);
-    } else {
-      params.delete(fieldName);
-    }
-    replace(`${pathname}?${params.toString()}`);
-  }, 300);
+      const params = new URLSearchParams(searchParams);
+      params.set('page', '1');
+      if (fieldValue) {
+        params.set(fieldName, fieldValue);
+      } else {
+        params.delete(fieldName);
+      }
+      replace(`${pathname}?${params.toString()}`);
+    }, 300);
 
   const handleUnscheduled = (event: React.ChangeEvent<HTMLInputElement>) => {
     setOnlyUnscheduled(event.target.checked);
     // console.log(event.target.checked);
-    if(event.target.checked){
+    if (event.target.checked) {
       handleFilterFields('schdle', 'true');
-    }else{
+    } else {
       handleFilterFields('schdle', 'false');
     }
   };
 
   return (
-    <Box sx={{ width: '100%' }}>
-      <Stack spacing={2}>
-        <Item>
-          <FormControl sx={{ mr: 1, my: 1, minWidth: 120 }}>
-            <TextField
-              label="Order Number"
-              id="outlined-size-small"
-              size="small"
-              onChange={(e) => { handleFilterFields('orderNumber', e.target.value); }}
-              defaultValue={searchParams.get('orderNumber')?.toString()}
-            />
-          </FormControl>
+    <>
+      <TextField
+        size="small"
+        fullWidth={true}
+        label="Order Number"
+        onChange={(e) => { handleFilterFields('orderNumber', e.target.value); }}
+        defaultValue={searchParams.get('orderNumber')?.toString()}
+      />
 
-          <FormControl sx={{ mr: 1, my: 1, minWidth: 320 }} size="small">
-            <TextField
-              label="Customer"
-              id="outlined-size-small"
-              size="small"
-              onChange={(e) => { handleFilterFields('customerTitle', e.target.value); }}
-              defaultValue={searchParams.get('customerTitle')?.toString()}
-            />
-          </FormControl>
+      <TextField
+        size="small"
+        label="Customer"
+        fullWidth={true}
+        onChange={(e) => { handleFilterFields('customerTitle', e.target.value); }}
+        defaultValue={searchParams.get('customerTitle')?.toString()}
+      />
 
-          <SelectReason />
+      <FilterReasonSelect />
 
-          <FormControl sx={{ mr: 1, my: 1, minWidth: 120 }} size="small">
-            <RadioGroup row
-              aria-labelledby="rgLocation"
-              name="rgLocation"
-              onChange={(e) => { handleFilterFields('locationOrd', e.target.value); }}
-              defaultValue={valueLocation}
-            >
-              <FormControlLabel value="ALL" control={<Radio />} label="All" />
-              <FormControlLabel value="MAIN" control={<Radio />} label="Main" />
-              <FormControlLabel value="WAYNE" control={<Radio />} label="Wayne" />
-            </RadioGroup>
-          </FormControl>
+      <FormControl fullWidth={true}>
+        <RadioGroup row
+          defaultValue={valueLocation}
+          aria-labelledby="rgLocation"
+          onChange={(e) => { handleFilterFields('locationOrd', e.target.value); }}
+        >
+          <FormControlLabel value="ALL" control={
+            <Radio sx={{'& .MuiSvgIcon-root': {fontSize: 22,},}}/>} label="All" />
+          <FormControlLabel value="MAIN" control={
+            <Radio sx={{'& .MuiSvgIcon-root': {fontSize: 22,},}}/>} label="Main" />
+          <FormControlLabel value="WAYNE" control={
+            <Radio sx={{'& .MuiSvgIcon-root': {fontSize: 22,},}}/>} label="Wayne" />
+        </RadioGroup>
+      </FormControl>
 
-          <FormControl sx={{ mr: 1, my: 1, minWidth: 120 }} size="small">
-            <FormGroup>
-              <FormControlLabel
-                control={<Checkbox 
-                  checked={onlyUnscheduled}
-                  onChange={handleUnscheduled}
-                />} label="Only Unscheduled" />
-            </FormGroup>
-          </FormControl>
-        </Item>
-      </Stack>
-    </Box>
+      <FormControl fullWidth={true}>
+        <FormControlLabel
+          label="Only Unscheduled"
+          control={
+            <Checkbox
+              checked={onlyUnscheduled} onChange={handleUnscheduled}
+              sx={{ '& .MuiSvgIcon-root': { fontSize: 22 } }} />
+          }
+        />
+      </FormControl>
+    </>
   );
 }

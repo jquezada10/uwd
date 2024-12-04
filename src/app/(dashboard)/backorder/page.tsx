@@ -10,6 +10,8 @@ import TableDataBackOrder from '@/components/backorder/TableDataBackOrder';
 import Pagination from '@/components/backorder/ui/pagination';
 import Chip from '@mui/material/Chip';
 
+import TextField from '@mui/material/TextField';
+
 export default async function BackOrderPage(props: { searchParams?: Promise<{ orderNumber?: string; customerTitle?: string; locationOrd?: string, page?: string; schdle?: string }>; }) {
 
   const searchParams = await props.searchParams;
@@ -22,21 +24,30 @@ export default async function BackOrderPage(props: { searchParams?: Promise<{ or
 
   return (
     <Grid size={{ xs: 12, md: 12 }}>
-      <Card variant="outlined" sx={{ width: '100%', mb: 2 }}>
-        <CardContent>
+      <Card variant="outlined" sx={{ width: '100%' }}>
+        <CardContent style={{padding: 16}}>
           <Typography component="h2" variant="subtitle2" gutterBottom>
             Filter BarckOrders
           </Typography>
-          <Stack sx={{ justifyContent: 'space-between' }}>
-            <Stack direction="row" sx={{ alignContent: { xs: 'center', sm: 'flex-start' }, alignItems: 'center', gap: 1, }}>
-              <FormFilterBackOrder />
-            </Stack>
+
+          <Stack
+            spacing={1}
+            sx={{
+              justifyContent: "flex-start",
+              alignItems: "flex-start",
+            }}
+            direction={{
+              xs: 'column',
+              sm: 'row'
+            }}
+          >
+            <FormFilterBackOrder />
           </Stack>
         </CardContent>
       </Card>
-
+      <br />
       <Card variant="outlined" sx={{ width: '100%', p: 0 }}>
-        <CardContent>
+        <CardContent style={{padding: 0}}>
           <TableDataBackOrder order={order} customer={customer} location={location} schdle={schdle} currentPage={currentPage} />
           <div className="">
 
@@ -52,9 +63,9 @@ export default async function BackOrderPage(props: { searchParams?: Promise<{ or
               <Pagination totalPages={totalPages} />
             </Grid>
             <Grid container columnSpacing={1} sx={{ order: { xs: 1, sm: 2 } }}>
-              <Stack spacing={0} sx={{mx:2}} flexDirection={{ xs: 'row', sm: 'column' }}>
-              <span><Chip size="small" label='M : M A I N' color='success' /></span>
-              <span><Chip size="small" label='W : WAYNE' color='error' /></span>
+              <Stack spacing={0} sx={{ mx: 2 }} flexDirection={{ xs: 'row', sm: 'column' }}>
+                <span><Chip size="small" label='M : M A I N' color='success' /></span>
+                <span><Chip size="small" label='W : WAYNE' color='error' /></span>
               </Stack>
             </Grid>
           </Grid>

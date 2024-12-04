@@ -11,13 +11,13 @@ export default function Page() {
     <Box sx={{ flexDirection: 'row' }}>
       <form>
         <Stack direction="row" spacing={1}>
-          <ReasonComplete />
-          <NoteUser />
-          <DateExpected />
-          <FormControl sx={{ mx: 1, minWidth: 120 }} size="small">
+          {/* <ReasonComplete /> */}
+          {/* <NoteUser /> */}
+          {/* <DateExpected /> */}
+          {/* <FormControl sx={{ mx: 1, minWidth: 120 }} size="small">
             <TextField id="newdexpectdate" label="" size="small"
               type="Date" slotProps={{ input: { readOnly: true, disabled: true }, }} />
-          </FormControl>
+          </FormControl> */}
         </Stack>
       </form>
     </Box>

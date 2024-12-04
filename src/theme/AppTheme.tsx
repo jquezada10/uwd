@@ -39,6 +39,7 @@ export default function AppTheme({
           },
         });
   }, [disableCustomTheme, themeComponents]);
+
   if (disableCustomTheme) {
     return <React.Fragment>{children}</React.Fragment>;
   }
@@ -47,4 +48,5 @@ export default function AppTheme({
       {children}
     </ThemeProvider>
   );
+  
 }

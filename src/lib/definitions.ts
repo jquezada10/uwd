@@ -9,9 +9,3 @@ export type BackOrder = {
   LocationID: string,
   Category: string
 }
-
-
-export type Reason = {
-  id : number,
-  title : string 
-}

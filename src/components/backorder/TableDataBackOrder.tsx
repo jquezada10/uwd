@@ -34,7 +34,10 @@ export default async function TableDataBackOrder({
             <TableCell width={'1'} align='center' style={{ backgroundColor: '#f5f6fa' }}>Line</TableCell>
             <TableCell width={'1'} align='center' style={{ backgroundColor: '#f5f6fa' }}>Unit</TableCell>
             <TableCell width={''} style={{ backgroundColor: '#f5f6fa' }}>Customer</TableCell>
-            <TableCell width={''} style={{ backgroundColor: '#f5f6fa' }}>Actions</TableCell>
+            <TableCell width={10} style={{ backgroundColor: '#f5f6fa' }}>Backorde Reason</TableCell>
+            <TableCell width={''} style={{ backgroundColor: '#f5f6fa' }}>User Notes</TableCell>
+            <TableCell width={''} style={{ backgroundColor: '#f5f6fa' }}>Material/Part Expected Date</TableCell>
+            <TableCell width={''} style={{ backgroundColor: '#f5f6fa' }}>Estemated Delivery Date</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
