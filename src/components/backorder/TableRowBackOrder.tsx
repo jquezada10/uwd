@@ -13,6 +13,7 @@ import DateExpected from '@/components/backorder/DateExpected';
 import FormControl from '@mui/material/FormControl';
 import TextField from '@mui/material/TextField';
 
+
 function ChipLocation({ location }: { location: string }) {
   const locationOrd = location.at(0);
   if (locationOrd == 'M') {
@@ -43,6 +44,13 @@ export default async function TableRowBackOrder({
   return (
     <>
       {data.map((item, i) => {
+        const codeBckOrd : string = item.SchedID+'-'+item.UnitID+'-'+item.OrderNumber;
+        const BackorderFile = {
+          codeBckOrd: codeBckOrd,
+          scheduleId: item.SchedID,
+          unitId: item.UnitID,
+          orderId: item.OrderNumber
+        }
         return (
           <TableRow hover key={i + c} style={{ backgroundColor: !item.UnitID ? '#ffcdd2' : '', }}>
             <TableCell sx={{ p: 0, m: 0 }}>
@@ -69,20 +77,20 @@ export default async function TableRowBackOrder({
               < ChipLocation location={item.LocationID} /> {item.CUSTOMER}
             </TableCell>
 
-            <TableCell sx={{ p: 0.5 }}>
-              {!item.UnitID ? '' : <Stack minWidth={320}><ReasonComplete /></Stack>}
+            <TableCell>
+              {!item.UnitID ? '' : <Stack minWidth={320}><ReasonComplete backorderFile={BackorderFile}/></Stack>}
             </TableCell>
 
-            <TableCell sx={{ p: 0.5 }}>
-              {!item.UnitID ? '' : <Stack minWidth={300}><NoteUser /></Stack>}
+            <TableCell>
+              {!item.UnitID ? '' : <Stack minWidth={300}><NoteUser backorder={codeBckOrd}/></Stack>}
             </TableCell>
 
-            <TableCell sx={{ p: 0.5 }}>
-              {!item.UnitID ? '' : <Stack minWidth={70}><DateExpected /></Stack>}
+            <TableCell>
+              {!item.UnitID ? '' : <Stack minWidth={70}><DateExpected backorder={codeBckOrd}/></Stack>}
             </TableCell>
 
-            <TableCell sx={{ p: 0.5 }}>
-              {!item.UnitID ? '' : <Stack minWidth={70}><DateExpected /></Stack>}
+            <TableCell>
+              {/* {!item.UnitID ? '' : <Stack minWidth={70}><DateExpected /></Stack>} */}
             </TableCell>
           </TableRow>
         )

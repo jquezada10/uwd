@@ -10,8 +10,6 @@ import TableDataBackOrder from '@/components/backorder/TableDataBackOrder';
 import Pagination from '@/components/backorder/ui/pagination';
 import Chip from '@mui/material/Chip';
 
-import TextField from '@mui/material/TextField';
-
 export default async function BackOrderPage(props: { searchParams?: Promise<{ orderNumber?: string; customerTitle?: string; locationOrd?: string, page?: string; schdle?: string }>; }) {
 
   const searchParams = await props.searchParams;
@@ -20,10 +18,12 @@ export default async function BackOrderPage(props: { searchParams?: Promise<{ or
   const location = searchParams?.locationOrd || 'ALL';
   const schdle = searchParams?.schdle || '';
   const currentPage = Number(searchParams?.page) || 1;
-  const totalPages = await fetchBackOrdersPages(order, customer, location, currentPage);
+  // const totalPages = await fetchBackOrdersPages(order, customer, location, currentPage);
 
+  const backorder: string = '12345-1414-125' 
   return (
     <Grid size={{ xs: 12, md: 12 }}>
+      {/* Filter BackOrder */}
       <Card variant="outlined" sx={{ width: '100%' }}>
         <CardContent style={{padding: 16}}>
           <Typography component="h2" variant="subtitle2" gutterBottom>
@@ -46,17 +46,18 @@ export default async function BackOrderPage(props: { searchParams?: Promise<{ or
         </CardContent>
       </Card>
       <br />
+      {/* BackOrders List */}
       <Card variant="outlined" sx={{ width: '100%', p: 0 }}>
         <CardContent style={{padding: 0}}>
+          
+          {/* Table BackOrder */}
           <TableDataBackOrder order={order} customer={customer} location={location} schdle={schdle} currentPage={currentPage} />
-          <div className="">
-
-          </div>
-
-          <Grid
+          
+          {/* Pagination Backorder */}
+          {/* <Grid
             container
-            justifyContent="space-between"
             alignItems="center"
+            justifyContent="space-between"
             flexDirection={{ xs: 'column', sm: 'row' }}
           >
             <Grid sx={{ order: { xs: 2, sm: 1 } }}>
@@ -68,9 +69,16 @@ export default async function BackOrderPage(props: { searchParams?: Promise<{ or
                 <span><Chip size="small" label='W : WAYNE' color='error' /></span>
               </Stack>
             </Grid>
-          </Grid>
+          </Grid> */}
         </CardContent>
       </Card>
     </Grid>
   );
 }
+      
+{/* <br />
+
+<br/>
+<NoteUser backorder={backorder}/>
+<br />
+<DateExpected backorder={backorder}/> */}

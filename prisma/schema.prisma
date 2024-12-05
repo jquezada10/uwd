@@ -1,0 +1,26 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model BackorderFile {
+  id            Int      @id @default(autoincrement())
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  closed        Boolean  @default(false)
+  codeBckOrd    String   @unique
+  scheduleId    Int   
+  unitId        Int      
+  orderId       Int
+  reasonId      Int
+  noteUser      String?
+  expectedDate  DateTime?
+  newDateClient DateTime?
+}
