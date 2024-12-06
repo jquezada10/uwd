@@ -12,7 +12,7 @@ export default async function getBackOrders(order: string, customer: string, loc
     let sqlSentence = `
       SELECT [SchedID], [UnitID], [OrderNumber], [LineItem], [PartNo], [TargetShipDate], [CUSTOMER], [LocationID]
       FROM [UWD-SQL2016].UnitedDashboard.dbo.V_BACKORDER
-      WHERE 1=1
+      WHERE [OrderNumber] = '1456257'
     `;
     
     // let sqlSentence = `

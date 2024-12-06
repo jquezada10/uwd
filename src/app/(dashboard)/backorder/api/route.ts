@@ -33,3 +33,4 @@ export async function POST(request: Request) {
 export function PUT(request: Request) {
   return NextResponse.json('PUT Response correct!')
 }
+

@@ -7,24 +7,15 @@ interface Option {
   id: number;
   title: string;
 }
-
-
-export default function ReasonComplete({ backorderFile }: { backorderFile: object }) {
+// { backorderFile }: { backorderFile: object }
+export default function ReasonComplete() {
   const options: Option[] = reasonsBackOrder.filter((item) => item.id > 3);
   const [selectedOption, setSelectedOption] = React.useState<Option | null>(null);
-
-  React.useEffect(() => {
-    fetch('/backorder/api/1')
-      .then((res) => res.json)
-      .then((data) => {
-        set
-      })
-  }, []);
-
+  
   const handleChange = async (event: React.ChangeEvent<{}>, newValue: Option | null) => {
     setSelectedOption(newValue);
     const data = {
-      'backorderFile': backorderFile,
+      // 'backorderFile': backorderFile,
       'reasonId': newValue?.id,
       'reasonTitle': newValue?.title
     }

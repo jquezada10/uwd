@@ -9,6 +9,7 @@ import FormFilterBackOrder from '@/components/backorder/FormFilterBackOrder';
 import TableDataBackOrder from '@/components/backorder/TableDataBackOrder';
 import Pagination from '@/components/backorder/ui/pagination';
 import Chip from '@mui/material/Chip';
+import TableNormal from '@/components/backorder/ui/tableMui';
 
 export default async function BackOrderPage(props: { searchParams?: Promise<{ orderNumber?: string; customerTitle?: string; locationOrd?: string, page?: string; schdle?: string }>; }) {
 

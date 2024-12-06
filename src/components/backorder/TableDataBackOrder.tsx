@@ -24,7 +24,7 @@ export default async function TableDataBackOrder({
   currentPage: number;
 }) {
   return (
-    <TableContainer sx={{}}>
+    <TableContainer>
       <Table stickyHeader size="small" aria-label="simple table">
         <TableHead>
           <TableRow>
@@ -41,19 +41,9 @@ export default async function TableDataBackOrder({
           </TableRow>
         </TableHead>
         <TableBody>
-          <Suspense key={order + customer + location + currentPage} fallback={
-            <TableRow>
-              <TableCell><Skeleton animation="wave" variant="rounded" height={20}  /></TableCell>
-              <TableCell><Skeleton animation="wave" variant="rectangular" height={20}  /></TableCell>
-              <TableCell><Skeleton animation="wave" variant="rectangular" height={20}  /></TableCell>
-              <TableCell><Skeleton animation="wave" variant="rectangular" height={20}  /></TableCell>
-              <TableCell><Skeleton animation="wave" variant="rectangular" height={20}  /></TableCell>
-              <TableCell><Skeleton animation="wave" variant="rectangular" height={20}  /></TableCell>
-              <TableCell><Skeleton animation="wave" variant="rectangular" height={20}  /></TableCell>
-            </TableRow>
-          }>
+          {/* <Suspense key={order + customer + location + currentPage} fallback={<p>Loading...</p>}> */}
             <TableRowBackOrder order={order} customer={customer} location={location} schdle={schdle} currentPage={currentPage} />
-          </Suspense>
+          {/* </Suspense> */}
         </TableBody>
       </Table>
     </TableContainer>

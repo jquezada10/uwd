@@ -7,5 +7,17 @@ export type BackOrder = {
   TargetShipDate: Date,
   CUSTOMER: string,
   LocationID: string,
-  Category: string
+  Category: string,
+  backOrderFile: Object
+}
+
+export interface BackOrderRecord {
+  codeBckOrd: string;
+  scheduleId: number;   
+  unitId: number;     
+  orderId: number;
+  reasonId?: number;
+  noteUser?: string;
+  expectedDate?: Date;
+  newDateClient?: Date;
 }

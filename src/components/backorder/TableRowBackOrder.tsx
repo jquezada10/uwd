@@ -24,6 +24,8 @@ function ChipLocation({ location }: { location: string }) {
   }
 }
 
+
+
 export default async function TableRowBackOrder({
   order,
   customer,
@@ -38,21 +40,62 @@ export default async function TableRowBackOrder({
   currentPage: number;
 }) {
 
-  const data: BackOrder[] = await getBackOrders(order, customer, location, currentPage, schdle);
-  const c: number = 1;
+  console.log('1 se va a extraer')
+  let data: BackOrder[] = await getBackOrders(order, customer, location, currentPage, schdle);
+  console.log(data)
+  console.log('2 se obtuvieron los backords ^^');
+  console.log('3 se va  mutar data-sql  ')
 
+  data.map(async (bko) => {
+    const codeBckOrd: string = bko.SchedID + '-' + bko.UnitID + '-' + bko.OrderNumber;
+    const params = new URLSearchParams({ codeBckOrd: codeBckOrd });
+    const response = await fetch(`http://127.0.0.1:3000/api/backorderfile?${params.toString()}`);
+    const data = await response.json();
+    bko["backOrderFile"] = data;
+  })
+
+  const c: number = 1;
   return (
     <>
-      {data.map((item, i) => {
-        const codeBckOrd : string = item.SchedID+'-'+item.UnitID+'-'+item.OrderNumber;
-        const BackorderFile = {
-          codeBckOrd: codeBckOrd,
-          scheduleId: item.SchedID,
-          unitId: item.UnitID,
-          orderId: item.OrderNumber
-        }
+      {data.map((item, i) => {  
+  console.log('la nueva data',data)
+
+        // try {
+        //   // Hacer la consulta fetch para cada registro
+        //   const codeBckOrd: string = item.SchedID + '-' + item.UnitID + '-' + item.OrderNumber;
+        //   const params = new URLSearchParams({ codeBckOrd: codeBckOrd });
+        //   const response = await fetch(`http://127.0.0.1:3000/api/backorderfile?${params.toString()}`);
+
+        //   // Verificar si la respuesta es correcta
+        //   if (!response.ok) {
+        //     console.error(`Error al obtener datos`);
+        //   }
+
+        //   // Obtener los datos en formato JSON
+        //   const data = await response.json();
+
+
+        //   // Mostrar los resultados en consola
+        //   return(
+        //     <TableRow>
+        //       <TableCell>1</TableCell>
+        //       <TableCell>{i + c}</TableCell>
+        //       <TableCell>{data.closed}</TableCell>
+        //       <TableCell>4</TableCell>
+        //       <TableCell>5</TableCell>
+        //       <TableCell>6</TableCell>
+        //       <TableCell>{data.codeBckOrd}</TableCell>
+        //       <TableCell>{data.noteUser}<NoteUser backorder={codeBckOrd} /></TableCell>
+        //       <TableCell>9</TableCell>
+        //       <TableCell>10</TableCell>
+        //     </TableRow>
+        //   )
+
+        // } catch (error) {
+        //   console.error(`Error al hacer fetch`, error);
+        // }
         return (
-          <TableRow hover key={i + c} style={{ backgroundColor: !item.UnitID ? '#ffcdd2' : '', }}>
+          <TableRow key={i}>
             <TableCell sx={{ p: 0, m: 0 }}>
               {/* <CheckBackorder /> */}
             </TableCell>
@@ -62,7 +105,8 @@ export default async function TableRowBackOrder({
             </TableCell>
 
             <TableCell>
-              <a href={`http://uwd-fvsql/BI/reportviewer.aspx?report=331&order=${item.OrderNumber}`} target='_blank'>{item.OrderNumber}</a>
+              {/* <a href={`http://uwd-fvsql/BI/reportviewer.aspx?report=331&order=${item.OrderNumber}`} target='_blank'>{item.OrderNumber}</a> */}
+              {item.OrderNumber}
             </TableCell>
 
             <TableCell align='center'>
@@ -78,19 +122,21 @@ export default async function TableRowBackOrder({
             </TableCell>
 
             <TableCell>
-              {!item.UnitID ? '' : <Stack minWidth={320}><ReasonComplete backorderFile={BackorderFile}/></Stack>}
+              {/* {item.backOrderFile} */}
+              {/* {!item.UnitID ? '' : <Stack minWidth={320}><ReasonComplete /></Stack>} */}
             </TableCell>
 
             <TableCell>
-              {!item.UnitID ? '' : <Stack minWidth={300}><NoteUser backorder={codeBckOrd}/></Stack>}
+              {item.newField}
+              {/* {!item.UnitID ? '' : <Stack minWidth={300}><NoteUser backorder={codeBckOrd} /></Stack>} */}
             </TableCell>
 
             <TableCell>
-              {!item.UnitID ? '' : <Stack minWidth={70}><DateExpected backorder={codeBckOrd}/></Stack>}
+              {/* {!item.UnitID ? '' : <Stack minWidth={70}><DateExpected backorder={codeBckOrd}  /></Stack>} */}
             </TableCell>
 
             <TableCell>
-              {/* {!item.UnitID ? '' : <Stack minWidth={70}><DateExpected /></Stack>} */}
+              {/* {!item.UnitID ? '' : <Stack minWidth={70}><span> </span></Stack>} */}
             </TableCell>
           </TableRow>
         )

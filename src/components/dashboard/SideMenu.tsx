@@ -41,9 +41,10 @@ export default function SideMenu() {
           px: 5, py:1.5
         }}
       >
-        <Image
+        <p>U N I T E D W&D</p>
+        {/* <Image
         src="https://unitedwindowmfg.com/wp-content/uploads/2023/03/United-Logo-2023-Horizontal-OL-General-Use-TSA-Transparent-Bkgd.png" 
-        alt="UWD" width={160} height={40}/>
+        alt="UWD" width={160} height={40}/> */}
       </Box>
       <Divider />
       <MenuContent />

@@ -10,7 +10,8 @@ interface NoteBackOrder {
   userLogin: string;
 }
 
-export default function NoteUser({ backorder }: { backorder: string }) {
+export default function NoteUser({ backorder, backOrderFile }: { backorder: {}, backOrderFile: string }) {
+  console.log('desde note', backOrderFile)
 
   const [note, setNote] = React.useState('');
 
