@@ -8,21 +8,12 @@ import getBackOrders from "@/lib/data"
 import { BackOrder } from '@/lib/definitions';
 import CheckBackorder from '@/components/backorder/CheckBackOrder';
 import ReasonComplete from './ReasonComplete';
-import NoteUser from '@/components/backorder/NoteUser';
+import NoteUserBackOrderFile from '@/components/backorder/NoteUserBackOrderFile';
 import DateExpected from '@/components/backorder/DateExpected';
 import FormControl from '@mui/material/FormControl';
 import TextField from '@mui/material/TextField';
 
 
-function ChipLocation({ location }: { location: string }) {
-  const locationOrd = location.at(0);
-  if (locationOrd == 'M') {
-    return <Chip size="small" label={locationOrd} color='success' />
-  }
-  if (locationOrd == 'W') {
-    return <Chip size="small" label={locationOrd} color='error' />
-  }
-}
 
 
 
@@ -58,8 +49,7 @@ export default async function TableRowBackOrder({
   return (
     <>
       {data.map((item, i) => {  
-  console.log('la nueva data',data)
-
+        // console.log('la nueva data',data)
         // try {
         //   // Hacer la consulta fetch para cada registro
         //   const codeBckOrd: string = item.SchedID + '-' + item.UnitID + '-' + item.OrderNumber;
@@ -85,7 +75,7 @@ export default async function TableRowBackOrder({
         //       <TableCell>5</TableCell>
         //       <TableCell>6</TableCell>
         //       <TableCell>{data.codeBckOrd}</TableCell>
-        //       <TableCell>{data.noteUser}<NoteUser backorder={codeBckOrd} /></TableCell>
+        //       <TableCell>{data.noteUser}<NoteUserBackOrderFile backorder={codeBckOrd} /></TableCell>
         //       <TableCell>9</TableCell>
         //       <TableCell>10</TableCell>
         //     </TableRow>
@@ -100,7 +90,7 @@ export default async function TableRowBackOrder({
               {/* <CheckBackorder /> */}
             </TableCell>
 
-            <TableCell>
+            <TableCell>Ø
               {i + c}
             </TableCell>
 
@@ -118,7 +108,7 @@ export default async function TableRowBackOrder({
             </TableCell>
 
             <TableCell>
-              < ChipLocation location={item.LocationID} /> {item.CUSTOMER}
+
             </TableCell>
 
             <TableCell>
@@ -127,8 +117,8 @@ export default async function TableRowBackOrder({
             </TableCell>
 
             <TableCell>
-              {item.newField}
-              {/* {!item.UnitID ? '' : <Stack minWidth={300}><NoteUser backorder={codeBckOrd} /></Stack>} */}
+              {/*{item.newField}*/}
+              {/* {!item.UnitID ? '' : <Stack minWidth={300}></Stack>} */}
             </TableCell>
 
             <TableCell>

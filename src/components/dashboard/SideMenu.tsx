@@ -6,9 +6,10 @@ import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
+import SelectContent from './SelectContent';
 import MenuContent from './MenuContent';
+import CardAlert from './CardAlert';
 import OptionsMenu from './OptionsMenu';
-import Image from "next/image";
 
 const drawerWidth = 240;
 
@@ -38,17 +39,14 @@ export default function SideMenu() {
         sx={{
           display: 'flex',
           mt: 'calc(var(--template-frame-height, 0px) + 4px)',
-          px: 5, py:1.5
+          p: 1.5,
         }}
       >
-        <p>U N I T E D W&D</p>
-        {/* <Image
-        src="https://unitedwindowmfg.com/wp-content/uploads/2023/03/United-Logo-2023-Horizontal-OL-General-Use-TSA-Transparent-Bkgd.png" 
-        alt="UWD" width={160} height={40}/> */}
+        <SelectContent />
       </Box>
       <Divider />
       <MenuContent />
-
+      <CardAlert />
       <Stack
         direction="row"
         sx={{
@@ -61,15 +59,16 @@ export default function SideMenu() {
       >
         <Avatar
           sizes="small"
-          alt="Jean Quezada"
+          alt="Riley Carter"
+          src="/static/images/avatar/7.jpg"
           sx={{ width: 36, height: 36 }}
         />
         <Box sx={{ mr: 'auto' }}>
           <Typography variant="body2" sx={{ fontWeight: 500, lineHeight: '16px' }}>
-            Jean Quezada
+            Riley Carter
           </Typography>
           <Typography variant="caption" sx={{ color: 'text.secondary' }}>
-            jquezada@uwdmfg.com
+            riley@email.com
           </Typography>
         </Box>
         <OptionsMenu />

@@ -1,3 +1,4 @@
+'use client';
 import * as React from 'react';
 import Chip from '@mui/material/Chip';
 import TextField from '@mui/material/TextField';
@@ -9,6 +10,7 @@ import CheckBoxIcon from '@mui/icons-material/CheckBox';
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
+import { useRouter } from 'next/navigation';
 
 interface Option {
   id: number;
@@ -16,6 +18,7 @@ interface Option {
 }
 
 export default function FixedTags() {
+  const router = useRouter();
   const fixedOptions: Option[] = [];
   const [value, setValue] = React.useState([...fixedOptions, reasonsBackOrder[0]]);
 
@@ -30,6 +33,18 @@ export default function FixedTags() {
           ...fixedOptions,
           ...newValue.filter((option) => !fixedOptions.includes(option)),
         ]);
+
+        // Actualizar los parámetros en la URL
+        const ids = newValue.map((option) => option.id);
+        const params = new URLSearchParams();
+        if (ids.length > 0) {
+          params.set('ids', ids.join(',')); 
+          // Concatenar los IDs en un string separado por comas
+        } else {
+          params.delete('ids');
+        }
+
+        router.push(`?${params.toString()}`); // Actualiza la URL
         console.log('Opciones seleccionadas:', value)
       }}
       options={reasonsBackOrder}

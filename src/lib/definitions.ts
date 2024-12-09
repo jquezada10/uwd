@@ -1,23 +1,39 @@
-export type BackOrder = {
-  SchedID: number,
-  UnitID: number,
-  OrderNumber: string,
-  LineItem: number,
-  PartNo: string,
-  TargetShipDate: Date,
-  CUSTOMER: string,
-  LocationID: string,
-  Category: string,
-  backOrderFile: Object
+export interface BackOrder {
+  SchedID: number;
+  UnitID: number;
+  OrderNumber: number;
+  LineItem: number;
+  PartNo: string;
+  TargetShipDate: Date;
+  CUSTOMER: string;
+  LocationID: string;
+  Category: string;
 }
 
-export interface BackOrderRecord {
+export interface BackOrderFile {
   codeBckOrd: string;
-  scheduleId: number;   
-  unitId: number;     
-  orderId: number;
-  reasonId?: number;
-  noteUser?: string;
-  expectedDate?: Date;
-  newDateClient?: Date;
+  scheduleId: number | null;
+  unitId: number | null;
+  orderId: number | null;
+  reasonId: number | null;
+  noteUser: string | null;
+  expectedDate: Date | null;
+  newDateClient: Date | null;
+}
+
+export type BackOrderGeneral = BackOrder & BackOrderFile
+
+
+export interface SearchParams{
+  ord?: string;
+  cus?: string;
+  loc?: string,
+  pag: number;
+  sch?: string;
+  files?: Array<{}>
+}
+
+export interface OrderUnitFile{
+  orderId : number;
+  unitId : number;
 }

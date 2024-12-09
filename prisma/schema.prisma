@@ -19,7 +19,7 @@ model BackorderFile {
   scheduleId    Int   
   unitId        Int      
   orderId       Int
-  reasonId      Int
+  reasonId      Int?
   noteUser      String?
   expectedDate  DateTime?
   newDateClient DateTime?

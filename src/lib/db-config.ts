@@ -1,19 +1,25 @@
 import sql from "mssql";
 
-type DbConfig = {
-  server: string;
-  user: string;
-  password: string;
-  trustServerCertificate: boolean;
-  requestTimeout: number;
+const config: sql.config = {
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  server: process.env.DB_HOST || "localhost",
+  options: {
+    encrypt: true,
+    trustServerCertificate: true,
+  },
+  pool: {
+    max: 10,
+    min: 0,
+    idleTimeoutMillis: 30000,
+  },
 };
 
-const dbConfig: DbConfig = {
-  server: process.env.DB_SERVER!,
-  user: process.env.DB_USER!,
-  password: process.env.DB_PASSWORD!,
-  trustServerCertificate: true,
-  requestTimeout: 300000,
-};
+let pool: sql.ConnectionPool | null = null;
 
-export const dbpool = new sql.ConnectionPool(dbConfig);
+export const getDbConnection = async (): Promise<sql.ConnectionPool> => {
+  if (!pool) {
+    pool = await sql.connect(config);
+  }
+  return pool;
+};

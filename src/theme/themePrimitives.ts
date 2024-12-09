@@ -282,8 +282,8 @@ export const colorSchemes = {
         warning: orange[400],
       },
       action: {
-        hover: alpha(gray[400], 0.2),
-        selected: `${alpha(gray[400], 0.3)}`,
+        hover: alpha(gray[200], 0.2),
+        selected: `${alpha(gray[200], 0.3)}`,
       },
       baseShadow:
         'hsla(220, 30%, 5%, 0.07) 0px 4px 16px 0px, hsla(220, 25%, 10%, 0.07) 0px 8px 16px -5px',
@@ -378,10 +378,10 @@ export const typography = {
     fontWeight: 500,
   },
   body1: {
-    fontSize: defaultTheme.typography.pxToRem(14),
+    fontSize: defaultTheme.typography.pxToRem(12),
   },
   body2: {
-    fontSize: defaultTheme.typography.pxToRem(14),
+    fontSize: defaultTheme.typography.pxToRem(12),
     fontWeight: 400,
   },
   caption: {
