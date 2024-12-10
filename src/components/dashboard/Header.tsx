@@ -1,14 +1,22 @@
 import * as React from 'react';
 import Stack from '@mui/material/Stack';
-import NotificationsRoundedIcon from '@mui/icons-material/NotificationsRounded';
+// import NotificationsRoundedIcon from '@mui/icons-material/NotificationsRounded';
 // import CustomDatePicker from './CustomDatePicker';
+// import MenuButton from './MenuButton';
 import NavbarBreadcrumbs from './NavbarBreadcrumbs';
-import MenuButton from './MenuButton';
 import ColorModeIconDropdown from '@/theme/ColorModeIconDropdown';
-
 import Search from './Search';
+import {
+  // SignInButton,
+  SignedIn,
+  // SignedOut,
+  UserButton
+} from '@clerk/nextjs';
 
 export default function Header() {
+  const hoy = new Date();
+  console.log(hoy); // Muestra la fecha y hora actuales
+
   return (
     <Stack
       direction="row"
@@ -24,11 +32,15 @@ export default function Header() {
     >
       <NavbarBreadcrumbs />
       <Stack direction="row" sx={{ gap: 1 }}>
-        <Search />
+        <p>{hoy.toDateString()}</p>
+        <SignedIn>
+          <UserButton showName />
+        </SignedIn>
+        {/* <Search /> */}
         {/* <CustomDatePicker /> */}
-        <MenuButton showBadge aria-label="Open notifications">
+        {/* <MenuButton showBadge aria-label="Open notifications">
           <NotificationsRoundedIcon />
-        </MenuButton>
+        </MenuButton> */}
         <ColorModeIconDropdown />
       </Stack>
     </Stack>

@@ -4,7 +4,7 @@ import TextField from '@mui/material/TextField';
 import { useDebouncedCallback } from 'use-debounce';
 import {setNoteUserBackOrderFile} from "@/lib/data";
 import {BackOrderGeneral} from "@/lib/definitions";
-
+import LinearProgress from '@mui/material/LinearProgress';
 
 export default function NoteUserBackOrderFile({ backOrderFile }:{ backOrderFile: BackOrderGeneral}) {
   const [isPending, startTransition] = React.useTransition();
@@ -47,7 +47,7 @@ export default function NoteUserBackOrderFile({ backOrderFile }:{ backOrderFile:
             onFocus={handlerFocus}
             onChange={handleInputChange}
         />
-        {isPending && <h1>Cargando...</h1>}
+        {isPending && <LinearProgress />}
       </div>
   );
 };

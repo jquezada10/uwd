@@ -5,7 +5,7 @@ import Typography from '@mui/material/Typography';
 export default function Copyright(props: any) {
   return (
     <Typography
-      variant="body2"
+      variant="subtitle2"
       align="center"
       {...props}
       sx={[
@@ -16,8 +16,8 @@ export default function Copyright(props: any) {
       ]}
     >
       {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Sitemark
+      <Link color="inherit" href="https://portal.unitedwindowmfg.com/">
+       United Window & Door
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}

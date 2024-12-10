@@ -22,8 +22,8 @@ export const dataDisplayCustomizations: Components<Theme> = {
     styleOverrides: {
       root: ({ theme }) => ({
         [`& .${svgIconClasses.root}`]: {
-          width: '1rem',
-          height: '1rem',
+          // width: '1rem',
+          // height: '1rem',
           color: (theme.vars || theme).palette.text.secondary,
         },
         [`& .${typographyClasses.root}`]: {
@@ -58,9 +58,9 @@ export const dataDisplayCustomizations: Components<Theme> = {
   MuiListItemText: {
     styleOverrides: {
       primary: ({ theme }) => ({
-        fontSize: theme.typography.body2.fontSize,
+        fontSize: theme.typography.h6.fontSize,
         fontWeight: 500,
-        lineHeight: theme.typography.body2.lineHeight,
+        lineHeight: 2,
       }),
       secondary: ({ theme }) => ({
         fontSize: theme.typography.caption.fontSize,

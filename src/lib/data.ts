@@ -18,20 +18,23 @@ export async function fetchDBBackOrders(paramsFilter: SearchParams) {
         const pool: ConnectionPool = await getDbConnection();
 
         // TODO: Change querySQL bellow in BD United
-        let querySQL: string = `SELECT [SchedID], [UnitID], [OrderNumber], [LineItem], [PartNo], [TargetShipDate], [CUSTOMER], [LocationID] FROM [uwd-test].[dbo].[backorders] WHERE 1=1`;
-        // let querySQL : string = `SELECT [SchedID], [UnitID], [OrderNumber], [LineItem], [PartNo], [TargetShipDate], [CUSTOMER], [LocationID] FROM [UWD-SQL2016].UnitedDashboard.dbo.V_BACKORDER WHERE 1=1`;
+        //let querySQL: string = `SELECT [SchedID], [UnitID], [OrderNumber], [LineItem], [PartNo], [TargetShipDate], [CustomerID], [CUSTOMER], [LocationID] FROM [uwd-test].[dbo].[backorders] WHERE 1=1`;
+        let querySQL : string = `SELECT [SchedID], [UnitID], [OrderNumber], [LineItem], [PartNo], [TargetShipDate], [CustomerID], [CUSTOMER], [LocationID] FROM [UWD-SQL2016].UnitedDashboard.dbo.V_BACKORDER WHERE 1=1`;
 
         const request = pool.request();
 
         if (paramsFilter.files) {
+            console.log('------------->', paramsFilter)
             const fParams : any = paramsFilter.files;
             const orderIds = fParams.map((item:OrderUnitFile) => item.orderId);
             const unitIds = fParams.map((item:OrderUnitFile) => item.unitId);
-            
-            // console.log(orderIds, unitIds);
-            // const files = paramsFilter.files.join(',')
-            // console.log('tenemos parametros y son estos', paramsFilter.files)
-            querySQL += ` AND [OrderNumber] IN (${orderIds}) AND [UnitID] IN (${unitIds})`;
+            // const lineNumber = fParams.map((item:OrderUnitFile) => item.codeBckOrd.split('-')[3]);
+            if(paramsFilter.reas === 3){
+                querySQL += ` AND [OrderNumber] NOT IN (${orderIds}) AND [UnitID] NOT IN (${unitIds})`;
+            }else{
+
+                querySQL += ` AND [OrderNumber] IN (${orderIds}) AND [UnitID] IN (${unitIds})`;
+            }
         }
 
         if (paramsFilter.ord) {
@@ -51,7 +54,7 @@ export async function fetchDBBackOrders(paramsFilter: SearchParams) {
 
         // TODO: Change 'NULL' to NULL in BD United
         if (paramsFilter.sch == 'true') {
-            querySQL += ` AND [SchedID] = 'NULL'`;
+            querySQL += ` AND [SchedID] IS NULL`;
         }
 
         querySQL += `
@@ -78,29 +81,37 @@ export async function fetchBackOrdersPages(paramsFilter: SearchParams) {
     try {
         const pool: ConnectionPool = await getDbConnection();
 
-        let querySQL = `
-          SELECT COUNT(*) AS totalBackOrders
-          FROM [uwd-test].[dbo].[backorders]
-          WHERE 1=1
-        `;
-
-        // let sqlSentence = `
-        //     SELECT COUNT(*) AS totalBackOrders
-        //     FROM [UWD-SQL2016].UnitedDashboard.dbo.V_BACKORDER
-        //     WHERE 1=1
+        // let querySQL = `
+        //   SELECT COUNT(*) AS totalBackOrders
+        //   FROM [uwd-test].[dbo].[backorders]
+        //   WHERE 1=1
         // `;
+
+        let querySQL = `
+            SELECT COUNT(*) AS totalBackOrders
+            FROM [UWD-SQL2016].UnitedDashboard.dbo.V_BACKORDER
+            WHERE 1=1
+        `;
 
         const request = pool.request();
 
         if (paramsFilter.files) {
             const fParams : any = paramsFilter.files;
-            const orderIds = fParams.map((item:OrderUnitFile) => item.orderId);
-            const unitIds = fParams.map((item:OrderUnitFile) => item.unitId);
-            
-            // console.log(orderIds, unitIds);
-            // const files = paramsFilter.files.join(',')
-            // console.log('tenemos parametros y son estos', paramsFilter.files)
-            querySQL += ` AND [OrderNumber] IN (${orderIds}) AND [UnitID] IN (${unitIds})`;
+            const orderIds = fParams.map((item:OrderUnitFile) => item.orderId.toString());
+            const unitIds = fParams.map((item:OrderUnitFile) => item.unitId.toString());
+            // const lineNumber = fParams.map((item:OrderUnitFile) => item.codeBckOrd.split('-')[3]);
+
+            const aux = orderIds.map((elemento: any) => `'${elemento}'`).join(",")
+            // console.log('revisalo------------------>>>',aux )
+            // querySQL += ` AND [OrderNumber] IN (${aux}) AND [UnitID] IN (${unitIds})`;
+            // querySQL += ` AND [OrderNumber] IN (${aux}) `;
+            // console.log(querySQL)
+
+            if(paramsFilter.reas === 3){
+                querySQL += ` AND [OrderNumber] NOT IN (${aux}) AND [UnitID] NOT IN (${unitIds})`;
+            }else{
+                querySQL += ` AND [OrderNumber] IN (${aux}) AND [UnitID] IN (${unitIds})`;
+            }
         }
 
         if (paramsFilter.ord) {
@@ -120,7 +131,7 @@ export async function fetchBackOrdersPages(paramsFilter: SearchParams) {
 
         // TODO: Change 'NULL' to NULL in BD United
         if (paramsFilter.sch == 'true') {
-            querySQL += ` AND [SchedID] = 'NULL'`;
+            querySQL += ` AND [SchedID] IS NULL`;
         }
 
         const res = await request.query(querySQL);
@@ -128,17 +139,13 @@ export async function fetchBackOrdersPages(paramsFilter: SearchParams) {
         const totalBackOrders:number = res.recordset[0]?.totalBackOrders || 0;
         const totalPages = Math.ceil(Number(totalBackOrders) / ITEMS_PER_PAGE);
 
+        console.log('++++++++++++++++++++++++++++++++++++++++++', totalPages)
         return totalPages;
 
     } catch (error) {
         console.error('Database Error:', error);
         throw new Error('Failed to fetch invoices.');
     }
-    // const sqlSentence = `
-    // SELECT * FROM [UWD-SQL2016].UnitedDashboard.dbo.V_BACKORDER
-    // WHERE CUSTOMER LIKE '${`%${query}%`}'
-    // ORDER BY OrderNumber , SchedID , UnitID
-    // `;
 }
 
 
@@ -225,32 +232,53 @@ export async function setExpDateBackOrderFile(
     unitId: number,
     orderId: number,
     expectedDate: Date,
+    customerId: string,
 ) {
 
-    const dateWith7Days = new Date(expectedDate);
-    dateWith7Days.setDate(expectedDate.getDate() + 7);
+    // const dateWith7Days = new Date(expectedDate);
+    // dateWith7Days.setDate(expectedDate.getDate() + 7);
     // console.log(dateWith7Days)
 
-    await prisma.backorderFile.upsert({
-        where: {
-            codeBckOrd: codeBackOrder,
-            scheduleId: Number(scheduleId),
-            unitId: Number(unitId),
-            orderId: Number(orderId)
-        },
-        update: {
-            expectedDate: expectedDate,
-            newDateClient: dateWith7Days
-        },
-        create: {
-            codeBckOrd: codeBackOrder,
-            scheduleId: Number(scheduleId),
-            unitId: Number(unitId),
-            orderId: Number(orderId),
-            expectedDate: expectedDate,
-            newDateClient: dateWith7Days
-        },
-    })
+    const date1: string = expectedDate.toLocaleDateString('en-US', { timeZone: 'UTC' })
+    try {
+        const pool: ConnectionPool = await getDbConnection();
+
+        let querySQL : string = `EXEC UnitedDashboard.[dbo].[prc_Backorder_ExpectedDate] '${customerId}',  '${date1}'`;
+
+        const request = pool.request();
+        request.input("limit", sql.Int, ITEMS_PER_PAGE);
+        const res = await request.query(querySQL);
+        const date2: Date = res.recordset[0].Expected_Date;
+        
+        console.log(date2);
+
+        await prisma.backorderFile.upsert({
+            where: {
+                codeBckOrd: codeBackOrder,
+                scheduleId: Number(scheduleId),
+                unitId: Number(unitId),
+                orderId: Number(orderId)
+            },
+            update: {
+                expectedDate: expectedDate,
+                newDateClient: date2
+            },
+            create: {
+                codeBckOrd: codeBackOrder,
+                scheduleId: Number(scheduleId),
+                unitId: Number(unitId),
+                orderId: Number(orderId),
+                expectedDate: expectedDate,
+                newDateClient: date2
+            },
+        })
+
+        return date2.toLocaleDateString('en-US', { timeZone: 'UTC' });
+
+    } catch (error) {
+        console.error("Error ejecutando la consulta:", error);
+        throw new Error('Failed to fetch invoices.');
+    }
 }
 
 
@@ -265,7 +293,7 @@ export async function fecthBackOrderFiles(reasons: Array<Number>) {
     }
 
     const filesWithReason = await prisma.backorderFile.findMany({
-        where: filters, select: { orderId: true, unitId: true }
+        where: filters, select: { orderId: true, unitId: true, codeBckOrd: true}
     });
 
     // console.log('ordenes pro reasons', ordenes);
@@ -276,7 +304,24 @@ export async function fecthBackOrderFiles(reasons: Array<Number>) {
 
 
 
+export async function fecthBackOrderFilesAll(reasons: Array<Number>) {
+    // console.log('reasons', reasons)
+    // const filters: any = {};
 
+    // if (reasons) {
+    //     filters.reasonId = {
+    //         in: reasons,
+    //     };
+    // }
+    // console.log('------>', reasons);
+
+    const filesWithReason = await prisma.backorderFile.findMany()
+
+    // console.log('ordenes pro reasons', ordenes);
+    // const filesWithReason = ordenes.map((i) => (i.orderId))
+    // console.log(filesWithReason)
+    return filesWithReason;
+}
 
 
 

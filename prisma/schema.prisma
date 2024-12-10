@@ -1,14 +1,43 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "sqlserver"
   url      = env("DATABASE_URL")
 }
+
+model Roles {
+  Id        Int         @id(map: "PK__Roles__3214EC07EED6691E") @default(autoincrement())
+  Role      String?     @db.NVarChar(50)
+  UserRoles UserRoles[]
+  @@ignore
+} 
+
+model UserRoles {
+  UserId Int
+  RoleId Int
+  Roles  Roles @relation(fields: [RoleId], references: [Id], onDelete: Cascade, onUpdate: NoAction, map: "FK__UserRoles__RoleI__02FC7413")
+  Users  Users @relation(fields: [UserId], references: [Id], onDelete: Cascade, onUpdate: NoAction, map: "FK__UserRoles__UserI__02084FDA")
+
+  @@id([UserId, RoleId], map: "PK__UserRole__AF2760AD041D9C5F")
+  @@ignore
+}
+
+model Users {
+  Id                   Int         @id(map: "PK__Users__3214EC077186B9E6") @default(autoincrement())
+  Name                 String?     @db.NVarChar(50)
+  ActiveDirectoryEmail String?     @db.NVarChar(50)
+  ParadigmUsername     String?     @db.NVarChar(50)
+  ParadigmGuid         String?     @db.UniqueIdentifier
+  Username             String?     @db.NVarChar(50)
+  Password             String?     @db.NVarChar(50)
+  IsDisabled           Boolean?
+  Language             String?     @db.NVarChar(50)
+  Theme                String?     @db.NVarChar(50)
+  UserRoles            UserRoles[]
+  @@ignore
+} 
 
 model BackorderFile {
   id            Int      @id @default(autoincrement())
@@ -23,4 +52,5 @@ model BackorderFile {
   noteUser      String?
   expectedDate  DateTime?
   newDateClient DateTime?
+  usernameUser  String?
 }

@@ -22,7 +22,7 @@ export default function FormFilterBackOrder() {
     const handleFilterFields = useDebouncedCallback(
         (fieldName: string, fieldValue: string) => {
             const params = new URLSearchParams(searchParams);
-            params.set('page', '1');
+            params.set('pag', '1');
             if (fieldValue) {
                 params.set(fieldName, fieldValue);
             } else {

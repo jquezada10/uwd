@@ -11,14 +11,11 @@ export default function CardAlert() {
       <CardContent>
         <AutoAwesomeRoundedIcon fontSize="small" />
         <Typography gutterBottom sx={{ fontWeight: 600 }}>
-          Plan about to expire
+          Abc
         </Typography>
-        <Typography variant="body2" sx={{ mb: 2, color: 'text.secondary' }}>
-          Enjoy 10% off when renewing your plan today.
+        <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+          ABC ACB ACB ABC ABC ABC
         </Typography>
-        <Button variant="contained" size="small" fullWidth>
-          Get the discount
-        </Button>
       </CardContent>
     </Card>
   );
