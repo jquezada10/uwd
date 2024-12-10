@@ -55,7 +55,7 @@ export default function RootLayout(props: { children: React.ReactNode }) {
             <Header />
             <Box sx={{ width: '100%', maxWidth: { sm: '100%', md: '1700px' } }}>
               <Typography component="h2" variant="h6" sx={{ mb: 2 }}>
-                Overview
+                BACKORDERS ADMIN 1.0
               </Typography>
               { props.children }
               <Copyright sx={{ my: 4 }} />

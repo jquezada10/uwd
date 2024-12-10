@@ -13,6 +13,20 @@ type ClientAProps = {
   onStateChange: (newState: string) => void;
 };
 
+function formatDate(dateNew:string){
+  console.log('------------------------------->', dateNew == '')
+  if(dateNew !== ''){
+    const fecha = new Date(dateNew );
+    const dia = String(fecha.getDate()).padStart(2, '0');  
+    const mes = String(fecha.getMonth() + 1).padStart(2, '0');  
+    const anio = fecha.getFullYear();
+    const fechaFormateada = `${mes}/${dia}/${anio}`;
+    return fechaFormateada
+  }else{
+    return 'Pending...'
+  }
+}
+
 export default function DateExpected({ backOrderFile }: { backOrderFile: BackOrderGeneral }) {
   let expectDateFile = backOrderFile.expectedDate || '';
   let newExpectDateFile = backOrderFile.newDateClient || '';
@@ -26,7 +40,7 @@ export default function DateExpected({ backOrderFile }: { backOrderFile: BackOrd
   }
 
   const [selectedDate, setSelectedDate] = React.useState(expectDateFile);
-  const [newExpectedDate, setnewExpectedDate] = React.useState(newExpectDateFile || 'Pending');
+  const [newExpectedDate, setnewExpectedDate] = React.useState(formatDate(newExpectDateFile) || 'Pending');
 
   const handleInputChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const newExpectedDate = event.target.value;

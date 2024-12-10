@@ -22,7 +22,7 @@ import Grid from '@mui/material/Grid2';
 import Stack from '@mui/material/Stack';
 import Pagination from '@/components/backorder/ui/pagination';
 import LoadingData from '@/components/backorder/ui/loadingData';
-
+import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 
 function generateKey(length: number = 8): string {
     return crypto.randomBytes(length).toString('hex');
@@ -37,6 +37,19 @@ function ChipLocation({ location }: { location: string }) {
         return <Chip size="small" label={locationOrd} color='primary' />
     }
 }
+
+function formatDate(dateNew:string){
+    if(dateNew !== ''){
+      const fecha = new Date(dateNew );
+      const dia = String(fecha.getDate()).padStart(2, '0');  
+      const mes = String(fecha.getMonth() + 1).padStart(2, '0');  
+      const anio = fecha.getFullYear();
+      const fechaFormateada = `${mes}/${dia}/${anio}`;
+      return fechaFormateada
+    }else{
+      return 'Pending...'
+    }
+  }
 
 let status = false;
 
@@ -66,19 +79,19 @@ export default async function BackOrderPage(
 
     let backorders: BackOrder[] = [];
 
-    console.log('>>>>>', rea)
+    // console.log('>>>>>', rea)
 
     if (rea.length == 0 || rea[0] <= 3) {
-        console.log('100 ---- FILTRO SIN REASON', rea[0])
+        // console.log('100 ---- FILTRO SIN REASON', rea[0])
         if(rea[0] == 2){
             const files: Array<{}> = await fecthBackOrderFilesAll(rea)
-            console.log('Todas los BKOFiles', files);
+            // console.log('Todas los BKOFiles', files);
             backorders = await fetchDBBackOrders({ ord, cus, loc, sch, pag, files});
             totalPages = await fetchBackOrdersPages({ ord, cus, loc, sch, pag, files});
         
         }else if(rea[0] == 3){
             const files: Array<{}> = await fecthBackOrderFilesAll(rea)
-            console.log('Todas los BKOFiles', files);
+            // console.log('Todas los BKOFiles', files);
             const reas: number = rea[0];
             backorders = await fetchDBBackOrders({ ord, cus, loc, sch, pag, files, reas});
             totalPages = await fetchBackOrdersPages({ ord, cus, loc, sch, pag, files, reas});
@@ -89,9 +102,9 @@ export default async function BackOrderPage(
             totalPages = await fetchBackOrdersPages({ ord, cus, loc, sch, pag});
         }
     } else {
-        console.log('2------------------------------------------')
+        // console.log('2------------------------------------------')
         const files: Array<{}> = await fecthBackOrderFiles(rea)
-        console.log('3........................', files);
+        // console.log('3........................', files);
 
         if (files.length != 0) {
             backorders = await fetchDBBackOrders({ ord, cus, loc, sch, pag, files });
@@ -130,7 +143,7 @@ export default async function BackOrderPage(
     return (
         <div>
             <FormFilterBackOrder />
-            <LoadingData pendiente={status} />
+            {/* <LoadingData pendiente={status} /> */}
             
             <TableContainer component={Paper}>
                 <Table aria-label="backorder-main" size="small">
@@ -142,10 +155,10 @@ export default async function BackOrderPage(
                             <TableCell sx={{ width: 10, fontWeight: 650}}>Line</TableCell>
                             <TableCell sx={{ width: 10, fontWeight: 650}}>Unit</TableCell>
                             <TableCell sx={{ fontWeight: 650}}>Customer</TableCell>
-                            <TableCell sx={{ fontWeight: 650}}>Reason</TableCell>
+                            <TableCell sx={{ fontWeight: 650, width: 350}}>Reason</TableCell>
                             <TableCell sx={{ fontWeight: 650}}>Notes</TableCell>
-                            <TableCell sx={{ width: 10, fontWeight: 650}}>Expected Date</TableCell>
-                            <TableCell sx={{ width: 10, fontWeight: 650}}>Estimate Date</TableCell>
+                            <TableCell sx={{ width: 10, fontWeight: 650}}>Material/Part Expected Date</TableCell>
+                            <TableCell sx={{ width: 10, fontWeight: 650}}>Customer Expected Date</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -170,13 +183,16 @@ export default async function BackOrderPage(
                                     </TableCell>
 
                                     <TableCell>
-                                        {row.UnitID ? row.UnitID : <Chip label="Unscheduled" />}
+                                        {row.UnitID ? row.UnitID : <Chip label="Unscheduled" color='error'/>}
                                     </TableCell>
 
                                     <TableCell sx={{ fontWeight: 650}}>
                                         < ChipLocation location={row.LocationID} /> 
                                         <span>{row.CUSTOMER}</span> <br />
-                                        <span>Target Ship Date: {row.TargetShipDate.toISOString().split("T")[0]} </span>
+                                        <span>
+                                            <LocalShippingIcon fontSize="small" sx={{ pt:0.5, mx:1}}/>
+                                            Target Ship Date: {formatDate(row.TargetShipDate.toISOString().split("T")[0])} 
+                                        </span>
                                     </TableCell>
 
                                     <TableCell>
