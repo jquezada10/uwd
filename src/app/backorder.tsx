@@ -10,9 +10,9 @@ import TableContainer from '@mui/material/TableContainer';
 import PendingActionsIcon from '@mui/icons-material/PendingActions';
 import { fetchDBBackOrders, fetchPrismaBackOrderFile } from "@/lib/data";
 import {BackOrder, BackOrderFile, BackOrderGeneral} from "@/lib/definitions";
-import NoteUserBackOrderFile from "@/components/backorder/NoteUserBackOrderFile";
-import ReasonBackOrderFile from "@/components/backorder/ReasonBackOrderFile";
-import DateExpected from '@/components/backorder/DateExpected';
+import NoteUserBackOrderFile from "@/components/backorder/main/NoteUserBackOrderFile";
+import ReasonBackOrderFile from "@/components/backorder/main/ReasonBackOrderFile";
+import DateExpected from '@/components/backorder/main/DateExpectedBackOrderFile';
 import Chip from "@mui/material/Chip";
 
 function ChipLocation({ location }: { location: string }) {

@@ -1,3 +1,5 @@
+import crypto from 'crypto';
+
 export const formatCurrency = (amount: number) => {
   return (amount / 100).toLocaleString('en-US', {
     style: 'currency',
@@ -52,8 +54,12 @@ export const generatePagination = (currentPage: number, totalPages: number) => {
   ];
 };
 
-
+// my-utils-backorders
 export const formtLocalDate = (date:string): string => {
   const d: string[] = date.split('-')
   return (`${d[1]}/${d[2]}/${d[0]}`)
+}
+
+export const generateKey = (length: number = 8): string => {
+  return crypto.randomBytes(length).toString('hex');
 }

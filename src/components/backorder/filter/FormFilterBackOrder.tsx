@@ -36,11 +36,11 @@ export default function FormFilterBackOrder() {
     const filter = searchParams.get('loc');
     const [selectedLocation, setSelectedLocation] = React.useState(filter || 'ALL');
     const handleChangeLocation = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const params = new URLSearchParams(searchParams.toString());
         const value = event.target.value;
         setSelectedLocation(value);
-        params.set('page', '1');
-        params.set('loc', value);
+        
+        const params = new URLSearchParams(searchParams.toString());
+        (value != 'ALL') ? params.set('loc', value) : params.delete('loc');
         replace(`${pathname}?${params}`);
     }
 
@@ -49,17 +49,12 @@ export default function FormFilterBackOrder() {
     const initialChecked = searchParams.get('sch') === 'true';
     const [onlyUnscheduled, setOnlyUnscheduled] = React.useState<boolean>(initialChecked);
     const handleChangeUnscheduled = (event: React.ChangeEvent<HTMLInputElement>) => {
+        // 1.
         const checked = event.target.checked;
         setOnlyUnscheduled(checked);
-
-        const params = new URLSearchParams(searchParams.toString());
-        if (checked) {
-            params.set('page', '1');
-            params.set('sch', 'true');
-        } else {
-            params.set('page', '1');
-            params.set('sch', 'false');
-        }
+        // 2.
+        const params = new URLSearchParams(searchParams);
+        (checked) ? params.set('sch', 'true') : params.delete('sch');
         replace(`${pathname}?${params}`);
     };
 
@@ -78,8 +73,16 @@ export default function FormFilterBackOrder() {
             >
                 <TextField
                     size="small"
-                    fullWidth={true}
+                    sx={{width: 600}}
                     label="Order Number"
+                    onChange={(e) => { handleFilterFields('ord', e.target.value); }}
+                    defaultValue={searchParams.get('orderNumber')?.toString()}
+                />
+                
+                <TextField
+                    size="small"
+                    sx={{width: 600}}
+                    label="Purchase Order"
                     onChange={(e) => { handleFilterFields('ord', e.target.value); }}
                     defaultValue={searchParams.get('orderNumber')?.toString()}
                 />
@@ -94,7 +97,7 @@ export default function FormFilterBackOrder() {
 
                 <FilterReasonSelect />
 
-                <FormControl fullWidth>
+                <FormControl sx={{width: 900}}>
                     <RadioGroup row value={selectedLocation} onChange={handleChangeLocation}
                         sx={{ justifyContent: "space-between", alignItems: "center", }}>
                         <FormControlLabel value="ALL" control={
@@ -111,7 +114,8 @@ export default function FormFilterBackOrder() {
                         label="Only Unscheduled"
                         control={
                             <Checkbox
-                                checked={onlyUnscheduled} onChange={handleChangeUnscheduled}
+                                checked={onlyUnscheduled} 
+                                onChange={handleChangeUnscheduled}
                                 sx={{ '& .MuiSvgIcon-root': { fontSize: 22 } }} />
                         }
                     />

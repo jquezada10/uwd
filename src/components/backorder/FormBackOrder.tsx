@@ -1,5 +1,5 @@
-import NoteUserBackOrderFile from '@/components/backorder/NoteUserBackOrderFile';
-import DateExpected from '@/components/backorder/DateExpected';
+import NoteUserBackOrderFile from '@/components/backorder/main/NoteUserBackOrderFile';
+import DateExpected from '@/components/backorder/main/DateExpectedBackOrderFile';
 import FormControl from '@mui/material/FormControl';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';

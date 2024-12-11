@@ -8,8 +8,8 @@ import getBackOrders from "@/lib/data"
 import { BackOrder } from '@/lib/definitions';
 import CheckBackorder from '@/components/backorder/CheckBackOrder';
 import ReasonComplete from './ReasonComplete';
-import NoteUserBackOrderFile from '@/components/backorder/NoteUserBackOrderFile';
-import DateExpected from '@/components/backorder/DateExpected';
+import NoteUserBackOrderFile from '@/components/backorder/main/NoteUserBackOrderFile';
+import DateExpected from '@/components/backorder/main/DateExpectedBackOrderFile';
 import FormControl from '@mui/material/FormControl';
 import TextField from '@mui/material/TextField';
 

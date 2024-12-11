@@ -3,7 +3,7 @@ import sql from "mssql";
 import { getDbConnection } from '@/lib/db-config'
 import { prisma } from "@/lib/prisma";
 import { ConnectionPool } from "mssql";
-import { BackOrder, OrderUnitFile, SearchParams } from "@/lib/definitions";
+import { BackOrder, FilterParams, OrderUnitFile, paramsURL, SearchParams } from "@/lib/definitions";
 
 
 const ITEMS_PER_PAGE = 15;
@@ -148,6 +148,49 @@ export async function fetchBackOrdersPages(paramsFilter: SearchParams) {
     }
 }
 
+
+
+export async function fetchBackOrdersView(filters: FilterParams){
+    console.log('filtros - fetchBackOrdersView', filters)
+    try {
+        const pool: ConnectionPool = await getDbConnection();
+
+        let querySQL : string = `
+        SELECT TOP 15 [V_BACKORDER].[SchedID]
+        ,[V_BACKORDER].[UnitID]
+        ,[V_BACKORDER].[OrderNumber]
+        ,[V_BACKORDER].[PONumber]
+        ,[V_BACKORDER].[LineItem]
+        ,[V_BACKORDER].[TargetShipDate]
+        ,[V_BACKORDER].[Route]
+        ,[V_BACKORDER].[LocationID]
+        ,[V_BACKORDER].[CustomerID]
+        ,[V_BACKORDER].[CUSTOMER]
+        ,[BackorderFile].*
+        FROM [UWD-SQL2016].UnitedDashboard.dbo.V_BACKORDER 
+        LEFT JOIN [UWD-SQL2016].UnitedDashboard.dbo.BackorderFile
+        ON V_BACKORDER.SchedID = BackorderFile.scheduleId AND V_BACKORDER.UnitID = BackorderFile.unitId
+        WHERE 1=1`;
+
+        const request = pool.request();
+
+        if (filters.loc) {
+            querySQL += ` AND [LocationID] = @location`;
+            request.input("location", sql.VarChar, `${filters.loc}`);
+        }
+
+        if (filters.sch) {
+            querySQL += ` AND [V_BACKORDER].[SchedID] IS NULL`;
+        }
+
+        const res = await request.query(querySQL);
+        const raw: BackOrder[] = res.recordset;
+        return raw
+    } catch (error) {
+        console.error("Error ejecutando la consulta:", error);
+        throw new Error('Failed to fetch invoices.');
+    }
+}
 
 export async function fetchPrismaBackOrderFile(codeBackOrderFile: string) {
     const backOrderFile = await prisma.backorderFile.findUnique({
