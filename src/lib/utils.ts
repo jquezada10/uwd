@@ -51,3 +51,9 @@ export const generatePagination = (currentPage: number, totalPages: number) => {
     totalPages,
   ];
 };
+
+
+export const formtLocalDate = (date:string): string => {
+  const d: string[] = date.split('-')
+  return (`${d[1]}/${d[2]}/${d[0]}`)
+}

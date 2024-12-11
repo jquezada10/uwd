@@ -23,6 +23,7 @@ import Stack from '@mui/material/Stack';
 import Pagination from '@/components/backorder/ui/pagination';
 import LoadingData from '@/components/backorder/ui/loadingData';
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
+import {formtLocalDate} from '@/lib/utils'
 
 function generateKey(length: number = 8): string {
     return crypto.randomBytes(length).toString('hex');
@@ -38,6 +39,7 @@ function ChipLocation({ location }: { location: string }) {
     }
 }
 
+
 function formatDate(dateNew:string){
     if(dateNew !== ''){
       const fecha = new Date(dateNew );
@@ -50,6 +52,8 @@ function formatDate(dateNew:string){
       return 'Pending...'
     }
   }
+
+
 
 let status = false;
 
@@ -191,7 +195,7 @@ export default async function BackOrderPage(
                                         <span>{row.CUSTOMER}</span> <br />
                                         <span>
                                             <LocalShippingIcon fontSize="small" sx={{ pt:0.5, mx:1}}/>
-                                            Target Ship Date: {formatDate(row.TargetShipDate.toISOString().split("T")[0])} 
+                                            Target Ship Date: {formtLocalDate(row.TargetShipDate.toISOString().split("T")[0])}
                                         </span>
                                     </TableCell>
 
