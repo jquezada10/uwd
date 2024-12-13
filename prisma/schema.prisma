@@ -7,12 +7,53 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model BackorderFile {
+  id            Int       @id @default(autoincrement())
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime
+  closed        Boolean   @default(false)
+  codeBckOrd    String    @unique
+  scheduleId    Int
+  unitId        Int
+  orderId       Int
+  reasonId      Int?
+  noteUser      String?
+  expectedDate  DateTime?
+  newDateClient DateTime?
+  usernameUser  String?
+}
+
+model BackorderReasonCategory {
+  id                         Int                          @id @default(autoincrement())
+  createdAt                  DateTime                     @default(now())
+  updatedAt                  DateTime
+  isActive                   Boolean                      @default(false)
+  ownerCategory              String
+  nameCategory               String
+  codeCategory               String                       @unique
+  BackorderReasonDescription BackorderReasonDescription[]
+}
+
+model BackorderReasonDescription {
+  id                      Int                     @id @default(autoincrement())
+  reasonCategoryId        Int
+  nameDescription         String
+  notesRequeried          Boolean                 @default(false, map: "BackorderFile_notesRequeried")
+  createdAt               DateTime                @default(now())
+  updatedAt               DateTime
+  BackorderReasonCategory BackorderReasonCategory @relation(fields: [reasonCategoryId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "FK__ReasonDescription__ReasonCategory")
+}
+
+model holidays {
+  id           Int      @id(map: "PK__holidays__3213E83F201AA134") @default(autoincrement())
+  holiday_date DateTime @db.Date
+}
+
 model Roles {
   Id        Int         @id(map: "PK__Roles__3214EC07EED6691E") @default(autoincrement())
   Role      String?     @db.NVarChar(50)
   UserRoles UserRoles[]
-  @@ignore
-} 
+}
 
 model UserRoles {
   UserId Int
@@ -21,7 +62,6 @@ model UserRoles {
   Users  Users @relation(fields: [UserId], references: [Id], onDelete: Cascade, onUpdate: NoAction, map: "FK__UserRoles__UserI__02084FDA")
 
   @@id([UserId, RoleId], map: "PK__UserRole__AF2760AD041D9C5F")
-  @@ignore
 }
 
 model Users {
@@ -36,21 +76,4 @@ model Users {
   Language             String?     @db.NVarChar(50)
   Theme                String?     @db.NVarChar(50)
   UserRoles            UserRoles[]
-  @@ignore
-} 
-
-model BackorderFile {
-  id            Int      @id @default(autoincrement())
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
-  closed        Boolean  @default(false)
-  codeBckOrd    String   @unique
-  scheduleId    Int   
-  unitId        Int      
-  orderId       Int
-  reasonId      Int?
-  noteUser      String?
-  expectedDate  DateTime?
-  newDateClient DateTime?
-  usernameUser  String?
 }

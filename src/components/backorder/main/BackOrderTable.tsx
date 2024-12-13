@@ -40,7 +40,9 @@ export default async function BackOrderTable({
                                 Unit
                             </TableCell>
                             <TableCell sx={{ fontWeight: 650 }}>Customer</TableCell>
-                            <TableCell sx={{ fontWeight: 650, width: 350 }}>
+                            <TableCell sx={{ fontWeight: 650 }}>Ageing</TableCell>
+                            <TableCell sx={{ fontWeight: 650 }}>Provider</TableCell>
+                            <TableCell sx={{ fontWeight: 650, width: 100 }}>
                                 Reason
                             </TableCell>
                             <TableCell sx={{ fontWeight: 650 }}>Notes</TableCell>
